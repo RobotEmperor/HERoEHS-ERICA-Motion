@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>erica_motion_module</name>
+  <name>erica_action_module</name>
   <version>0.0.0</version>
-  <description>The erica_motion_module package</description>
+  <description>The erica_action_module package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
   <!-- <maintainer email="jane.doe@example.com">Jane Doe</maintainer> -->
-  <maintainer email="robotemperor@todo.todo">robotemperor</maintainer>
+  <maintainer email="yiteak@todo.todo">yiteak</maintainer>
 
 
   <!-- One license tag required, multiple allowed, one license per tag -->
@@ -19,7 +19,7 @@
   <!-- Url tags are optional, but multiple are allowed, one per tag -->
   <!-- Optional attribute type can be: website, bugtracker, or repository -->
   <!-- Example: -->
-  <!-- <url type="website">http://wiki.ros.org/erica_motion_module</url> -->
+  <!-- <url type="website">http://wiki.ros.org/erica_action_module</url> -->
 
 
   <!-- Author tags are optional, multiple are allowed, one per tag -->
