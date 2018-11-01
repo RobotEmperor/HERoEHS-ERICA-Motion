@@ -362,6 +362,9 @@ KinematicsDynamics::KinematicsDynamics()
   }
 }
 
+KinematicsDynamics::~KinematicsDynamics()
+{  }
+
 std::vector<int> KinematicsDynamics::findRoute(int to)
 {
   int id = erica_link_data_[to]->parent_;

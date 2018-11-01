@@ -24,6 +24,6 @@ dynamixel | /dev/ttyUSB0 | 11   | XM-430-W350-11    | 2.0      | l_arm_wr_r   | 
 dynamixel | /dev/ttyUSB0 | 12   | XM-430-W350-12    | 2.0      | r_arm_wr_r   | present_position
 
 
-#dynamixel | /dev/ttyUSB0 | 13   | XM-430-W350-13    | 2.0      | head_yaw     | present_position
-#dynamixel | /dev/ttyUSB0 | 14   | XM-430-W350-14    | 2.0      | head_pitch   | present_position
-#dynamixel | /dev/ttyUSB0 | 15   | XM-430-W350-15    | 2.0      | head_roll    | present_position
+dynamixel | /dev/ttyUSB0 | 13   | XM-430-W350-13    | 2.0      | head_yaw     | present_position
+dynamixel | /dev/ttyUSB0 | 14   | XM-430-W350-14    | 2.0      | head_pitch   | present_position
+dynamixel | /dev/ttyUSB0 | 15   | XM-430-W350-15    | 2.0      | head_roll    | present_position
