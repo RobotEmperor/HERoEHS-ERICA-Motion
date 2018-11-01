@@ -20,18 +20,18 @@ BaseModule::BaseModule()
 
 
   // Dynamixel initialize ////
- // result_["head_yaw"]         = new robotis_framework::DynamixelState();  // joint 13
- // result_["head_pitch"]       = new robotis_framework::DynamixelState();  // joint 14
- // result_["head_roll"]        = new robotis_framework::DynamixelState();  // joint 15
+  result_["head_yaw"]         = new robotis_framework::DynamixelState();  // joint 13
+  result_["head_pitch"]       = new robotis_framework::DynamixelState();  // joint 14
+  result_["head_roll"]        = new robotis_framework::DynamixelState();  // joint 15
 
- // result_["l_arm_sh_p"] = new robotis_framework::DynamixelState();  // joint 1
+  result_["l_arm_sh_p"] = new robotis_framework::DynamixelState();  // joint 1
   result_["l_arm_sh_r"] = new robotis_framework::DynamixelState();  // joint 3
   result_["l_arm_sh_y"] = new robotis_framework::DynamixelState();  // joint 5
   result_["l_arm_el_p"] = new robotis_framework::DynamixelState();  // joint 7
   result_["l_arm_wr_p"] = new robotis_framework::DynamixelState();  // joint 9
   result_["l_arm_wr_r"] = new robotis_framework::DynamixelState();  // joint 11
 
-//  result_["r_arm_sh_p"] = new robotis_framework::DynamixelState();  // joint 2
+  result_["r_arm_sh_p"] = new robotis_framework::DynamixelState();  // joint 2
   result_["r_arm_sh_r"] = new robotis_framework::DynamixelState();  // joint 4
   result_["r_arm_sh_y"] = new robotis_framework::DynamixelState();  // joint 6
   result_["r_arm_el_p"] = new robotis_framework::DynamixelState();  // joint 8
