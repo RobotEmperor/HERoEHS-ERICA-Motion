@@ -19,7 +19,7 @@ KinematicsDynamics::KinematicsDynamics()
   erica_link_data_[0]->name_               =  "base";
   erica_link_data_[0]->parent_             =  -1;
   erica_link_data_[0]->sibling_            =  -1;
-  erica_link_data_[0]->child_              =  38;
+  erica_link_data_[0]->child_              =  20;
   erica_link_data_[0]->mass_               =  0.0;
   erica_link_data_[0]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 0.0 );
   erica_link_data_[0]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 0.0 );
@@ -59,7 +59,7 @@ KinematicsDynamics::KinematicsDynamics()
   erica_link_data_[22]->sibling_            =  -1;
   erica_link_data_[22]->child_              =  23;
   erica_link_data_[22]->mass_               =  0.0;
-  erica_link_data_[22]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 0.723 ); // 0.0 , 0.0 , 0.801
+  erica_link_data_[22]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 0.936 ); // 0.0 , 0.0 , 0.801
   erica_link_data_[22]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 0.0 );
   erica_link_data_[22]->center_of_mass_     =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 0.0 );
   erica_link_data_[22]->joint_limit_max_    =  100.0;
@@ -111,7 +111,7 @@ KinematicsDynamics::KinematicsDynamics()
   erica_link_data_[16]->mass_               =  1.0;
   erica_link_data_[16]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 0.0 );
   erica_link_data_[16]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 0.0 );
-  erica_link_data_[16]->center_of_mass_     =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 0.058 );
+  erica_link_data_[16]->center_of_mass_     =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 0.0 );
   erica_link_data_[16]->joint_limit_max_    =  100.0;
   erica_link_data_[16]->joint_limit_min_    =  -100.0;
   erica_link_data_[16]->inertia_            =  robotis_framework::getInertiaXYZ( 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 );
@@ -124,9 +124,9 @@ KinematicsDynamics::KinematicsDynamics()
   erica_link_data_[13]->sibling_            =  1;
   erica_link_data_[13]->child_              =  14;
   erica_link_data_[13]->mass_               =  1.0;
-  erica_link_data_[13]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 0.229 );
+  erica_link_data_[13]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 0.14);
   erica_link_data_[13]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 1.0 );
-  erica_link_data_[13]->center_of_mass_     =  robotis_framework::getTransitionXYZ( 0.000 , -0.002 , 0.010 );
+  erica_link_data_[13]->center_of_mass_     =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 0.0 );
   erica_link_data_[13]->joint_limit_max_    =  M_PI;
   erica_link_data_[13]->joint_limit_min_    =  -M_PI;
   erica_link_data_[13]->inertia_            =  robotis_framework::getInertiaXYZ( 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 );
@@ -137,9 +137,9 @@ KinematicsDynamics::KinematicsDynamics()
   erica_link_data_[14]->sibling_            =  -1;
   erica_link_data_[14]->child_              =  15;
   erica_link_data_[14]->mass_               =  1.0;
-  erica_link_data_[14]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.0 , -0.04500 , 0.03900 );
-  erica_link_data_[14]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 , 1.0 , 0.0 );
-  erica_link_data_[14]->center_of_mass_     =  robotis_framework::getTransitionXYZ( 0.009 , 0.046 , 0.022 );
+  erica_link_data_[14]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.0 ,  0.0 , 0.054 );
+  erica_link_data_[14]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 , -1.0 , 0.0 );
+  erica_link_data_[14]->center_of_mass_     =  robotis_framework::getTransitionXYZ( 0.0 ,  0.0 , 0.0 );
   erica_link_data_[14]->joint_limit_max_    =  M_PI;
   erica_link_data_[14]->joint_limit_min_    =  -M_PI;
   erica_link_data_[14]->inertia_            =  robotis_framework::getInertiaXYZ( 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 );
@@ -150,9 +150,9 @@ KinematicsDynamics::KinematicsDynamics()
   erica_link_data_[15]->sibling_            =  -1;
   erica_link_data_[15]->child_              =  19;
   erica_link_data_[15]->mass_               =  1.0;
-  erica_link_data_[15]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.0 , -0.04500 , 0.03900 );
-  erica_link_data_[15]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 , 1.0 , 0.0 );
-  erica_link_data_[15]->center_of_mass_     =  robotis_framework::getTransitionXYZ( 0.009 , 0.046 , 0.022 );
+  erica_link_data_[15]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 0.00 );
+  erica_link_data_[15]->joint_axis_         =  robotis_framework::getTransitionXYZ( 1.0 , 0.0 , 0.0 );
+  erica_link_data_[15]->center_of_mass_     =  robotis_framework::getTransitionXYZ( 0.0 ,  0.0 , 0.0 );
   erica_link_data_[15]->joint_limit_max_    =  M_PI;
   erica_link_data_[15]->joint_limit_min_    =  -M_PI;
   erica_link_data_[15]->inertia_            =  robotis_framework::getInertiaXYZ( 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 );
@@ -162,22 +162,22 @@ KinematicsDynamics::KinematicsDynamics()
   erica_link_data_[19]->parent_             =  15;
   erica_link_data_[19]->sibling_            =  -1;
   erica_link_data_[19]->child_              =  -1;
-  erica_link_data_[19]->mass_               =  0.724;
-  erica_link_data_[19]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.0 , -0.04500 , 0.03900 );
-  erica_link_data_[19]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 0.0 );
-  erica_link_data_[19]->center_of_mass_     =  robotis_framework::getTransitionXYZ( 0.009 , 0.046 , 0.022 );
+  erica_link_data_[19]->mass_               =  0.0;
+  erica_link_data_[19]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.08 , 0.0  , 0.0 );
+  erica_link_data_[19]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0  , 0.0  , 0.0 );
+  erica_link_data_[19]->center_of_mass_     =  robotis_framework::getTransitionXYZ( 0.0  , 0.046, 0.0 );
   erica_link_data_[19]->joint_limit_max_    =  M_PI;
   erica_link_data_[19]->joint_limit_min_    =  -M_PI;
   erica_link_data_[19]->inertia_            =  robotis_framework::getInertiaXYZ( 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 );
 
   /*----- left arm -----*/
   // left arm shoulder pitch
-  erica_link_data_[1]->name_               =  "l_arm_shoulder_pitch";
+  erica_link_data_[1]->name_               =  "l_arm_sh_p";
   erica_link_data_[1]->parent_             =  16;
   erica_link_data_[1]->sibling_            =  2;
   erica_link_data_[1]->child_              =  3;
   erica_link_data_[1]->mass_               =  1.0;
-  erica_link_data_[1]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.000 , 0.152 , 0.160 );
+  erica_link_data_[1]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.0 , 0.21 , 0.0 );
   erica_link_data_[1]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 , 1.0 , 0.0 );
   erica_link_data_[1]->center_of_mass_     =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 0.0 );
   erica_link_data_[1]->joint_limit_max_    =  M_PI;
@@ -185,78 +185,78 @@ KinematicsDynamics::KinematicsDynamics()
   erica_link_data_[1]->inertia_            =  robotis_framework::getInertiaXYZ( 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 );
 
   // left arm shoulder roll
-  erica_link_data_[3]->name_               =  "l_arm_shoulder_roll";
+  erica_link_data_[3]->name_               =  "l_arm_sh_r";
   erica_link_data_[3]->parent_             =  1;
   erica_link_data_[3]->sibling_            =  -1;
   erica_link_data_[3]->child_              =  5;
   erica_link_data_[3]->mass_               =  1.0;
-  erica_link_data_[3]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.000 , 0.152 , 0.160 );
-  erica_link_data_[3]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 1.0 );
-  erica_link_data_[3]->center_of_mass_     =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 0.0 );
+  erica_link_data_[3]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 ,  0.0 );
+  erica_link_data_[3]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , -1.0 );
+  erica_link_data_[3]->center_of_mass_     =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 ,  0.0 );
   erica_link_data_[3]->joint_limit_max_    =  M_PI;
   erica_link_data_[3]->joint_limit_min_    =  -M_PI;
   erica_link_data_[3]->inertia_            =  robotis_framework::getInertiaXYZ( 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 );
 
   // left arm shoulder roll
-  erica_link_data_[5]->name_               =  "l_arm_shoulder_yaw";
+  erica_link_data_[5]->name_               =  "l_arm_sh_y";
   erica_link_data_[5]->parent_             =  3;
   erica_link_data_[5]->sibling_            =  -1;
   erica_link_data_[5]->child_              =  7;
   erica_link_data_[5]->mass_               =  1.0;
-  erica_link_data_[5]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.000 , 0.152 , 0.160 );
-  erica_link_data_[5]->joint_axis_         =  robotis_framework::getTransitionXYZ( 1.0 , 0.0 , 0.0 );
-  erica_link_data_[5]->center_of_mass_     =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 0.0 );
+  erica_link_data_[5]->relative_position_  =  robotis_framework::getTransitionXYZ(  0.0 , 0.0 , 0.0 );
+  erica_link_data_[5]->joint_axis_         =  robotis_framework::getTransitionXYZ( -1.0 , 0.0 , 0.0 );
+  erica_link_data_[5]->center_of_mass_     =  robotis_framework::getTransitionXYZ(  0.0 , 0.0 , 0.0 );
   erica_link_data_[5]->joint_limit_max_    =  M_PI;
   erica_link_data_[5]->joint_limit_min_    =  -M_PI;
   erica_link_data_[5]->inertia_            =  robotis_framework::getInertiaXYZ( 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 );
 
   // left arm elbow pitch
-  erica_link_data_[7]->name_               =  "l_arm_elbow_pitch";
+  erica_link_data_[7]->name_               =  "l_arm_el_p";
   erica_link_data_[7]->parent_             =  5;
   erica_link_data_[7]->sibling_            =  -1;
   erica_link_data_[7]->child_              =  9;
   erica_link_data_[7]->mass_               =  1.0;
-  erica_link_data_[7]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.000 , 0.152 , 0.160 );
-  erica_link_data_[7]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 , 1.0 , 0.0 );
-  erica_link_data_[7]->center_of_mass_     =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 0.0 );
+  erica_link_data_[7]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.2 ,  0.0 , 0.0 );
+  erica_link_data_[7]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 , -1.0 , 0.0 );
+  erica_link_data_[7]->center_of_mass_     =  robotis_framework::getTransitionXYZ( 0.0 ,  0.0 , 0.0 );
   erica_link_data_[7]->joint_limit_max_    =  M_PI;
   erica_link_data_[7]->joint_limit_min_    =  -M_PI;
   erica_link_data_[7]->inertia_            =  robotis_framework::getInertiaXYZ( 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 );
 
   // left arm wrist pitch
-  erica_link_data_[9]->name_               =  "l_arm_wrist_pitch";
+  erica_link_data_[9]->name_               =  "l_arm_wr_p";
   erica_link_data_[9]->parent_             =  5;
   erica_link_data_[9]->sibling_            =  -1;
   erica_link_data_[9]->child_              =  9;
   erica_link_data_[9]->mass_               =  1.0;
-  erica_link_data_[9]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.000 , 0.152 , 0.160 );
-  erica_link_data_[9]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 , 1.0 , 0.0 );
-  erica_link_data_[9]->center_of_mass_     =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 0.0 );
+  erica_link_data_[9]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.2 ,  0.0 , 0.0 );
+  erica_link_data_[9]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 , -1.0 , 0.0 );
+  erica_link_data_[9]->center_of_mass_     =  robotis_framework::getTransitionXYZ( 0.0 ,  0.0 , 0.0 );
   erica_link_data_[9]->joint_limit_max_    =  M_PI;
   erica_link_data_[9]->joint_limit_min_    =  -M_PI;
   erica_link_data_[9]->inertia_            =  robotis_framework::getInertiaXYZ( 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 );
 
   // left arm wrist roll
-  erica_link_data_[11]->name_               =  "l_arm_wrist_roll";
-  erica_link_data_[11]->parent_             = 9;
+  erica_link_data_[11]->name_               =  "l_arm_wr_r";
+  erica_link_data_[11]->parent_             =   9;
   erica_link_data_[11]->sibling_            =  -1;
-  erica_link_data_[11]->child_              =  -1;
+  erica_link_data_[11]->child_              =  17;
   erica_link_data_[11]->mass_               =  1.0;
-  erica_link_data_[11]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.000 , 0.152 , 0.160 );
-  erica_link_data_[11]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 1.0 );
-  erica_link_data_[11]->center_of_mass_     =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 0.0 );
+  erica_link_data_[11]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 ,  0.0 );
+  erica_link_data_[11]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , -1.0 );
+  erica_link_data_[11]->center_of_mass_     =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 ,  0.0 );
   erica_link_data_[11]->joint_limit_max_    =  M_PI;
-  erica_link_data_[11]->joint_limit_min_    =  -M_PI;
+  erica_link_data_[11]->joint_limit_min_    = -M_PI;
   erica_link_data_[11]->inertia_            =  robotis_framework::getInertiaXYZ( 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 );
 
   // left arm end
   erica_link_data_[17]->name_               =  "l_arm_end";
-  erica_link_data_[17]->parent_             = 11;
+  erica_link_data_[17]->parent_             =  11;
   erica_link_data_[17]->sibling_            =  -1;
   erica_link_data_[17]->child_              =  -1;
   erica_link_data_[17]->mass_               =  1.0;
-  erica_link_data_[17]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.000 , 0.152 , 0.160 );
-  erica_link_data_[17]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 1.0 );
+  erica_link_data_[17]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.034 , 0.0 , 0.0 );
+  erica_link_data_[17]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 0.0 );
   erica_link_data_[17]->center_of_mass_     =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 0.0 );
   erica_link_data_[17]->joint_limit_max_    =  M_PI;
   erica_link_data_[17]->joint_limit_min_    =  -M_PI;
@@ -265,79 +265,79 @@ KinematicsDynamics::KinematicsDynamics()
 
   /*----- right arm -----*/
   // right arm shoulder pitch
-  erica_link_data_[2]->name_               =  "r_arm_shoulder_pitch";
+  erica_link_data_[2]->name_               =  "r_arm_sh_p";
   erica_link_data_[2]->parent_             =  16;
   erica_link_data_[2]->sibling_            =  -1;
   erica_link_data_[2]->child_              =  4;
   erica_link_data_[2]->mass_               =  0.1;
-  erica_link_data_[2]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.000 , -0.152 , 0.160 );
-  erica_link_data_[2]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 , -1.0 , 0.0 );
-  erica_link_data_[2]->center_of_mass_     =  robotis_framework::getTransitionXYZ( -0.003 , -0.020 , -0.005 );
+  erica_link_data_[2]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.0 , -0.21 , 0.0 );
+  erica_link_data_[2]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 , -1.0  , 0.0 );
+  erica_link_data_[2]->center_of_mass_     =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 0.0 );
   erica_link_data_[2]->joint_limit_max_    =  M_PI;
   erica_link_data_[2]->joint_limit_min_    =  -M_PI;
   erica_link_data_[2]->inertia_            =  robotis_framework::getInertiaXYZ( 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 );
 
   // right arm shoulder roll
-  erica_link_data_[4]->name_               =  "r_arm_shoulder_roll";
+  erica_link_data_[4]->name_               =  "r_arm_sh_r";
   erica_link_data_[4]->parent_             =  2;
   erica_link_data_[4]->sibling_            =  -1;
   erica_link_data_[4]->child_              =  6;
   erica_link_data_[4]->mass_               =  0.1;
-  erica_link_data_[4]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.000 , -0.152 , 0.160 );
-  erica_link_data_[4]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 1.0 );
-  erica_link_data_[4]->center_of_mass_     =  robotis_framework::getTransitionXYZ( -0.003 , -0.020 , -0.005 );
+  erica_link_data_[4]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 0.0 );
+  erica_link_data_[4]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , -1.0 );
+  erica_link_data_[4]->center_of_mass_     =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 0.0 );
   erica_link_data_[4]->joint_limit_max_    =  M_PI;
   erica_link_data_[4]->joint_limit_min_    =  -M_PI;
   erica_link_data_[4]->inertia_            =  robotis_framework::getInertiaXYZ( 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 );
 
   // right arm shoulder yaw
-  erica_link_data_[6]->name_               =  "r_arm_shoulder_yaw";
+  erica_link_data_[6]->name_               =  "r_arm_sh_y";
   erica_link_data_[6]->parent_             =  4;
   erica_link_data_[6]->sibling_            =  -1;
   erica_link_data_[6]->child_              =  8;
   erica_link_data_[6]->mass_               =  0.1;
-  erica_link_data_[6]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.000 , -0.152 , 0.160 );
-  erica_link_data_[6]->joint_axis_         =  robotis_framework::getTransitionXYZ( 1.0 , 0.0 , 0.0 );
-  erica_link_data_[6]->center_of_mass_     =  robotis_framework::getTransitionXYZ( -0.003 , -0.020 , -0.005 );
+  erica_link_data_[6]->relative_position_  =  robotis_framework::getTransitionXYZ(  0.0 ,  0.0 , 0.0 );
+  erica_link_data_[6]->joint_axis_         =  robotis_framework::getTransitionXYZ( -1.0 ,  0.0 , 0.0 );
+  erica_link_data_[6]->center_of_mass_     =  robotis_framework::getTransitionXYZ(  0.0 ,  0.0 , 0.0 );
   erica_link_data_[6]->joint_limit_max_    =  M_PI;
   erica_link_data_[6]->joint_limit_min_    =  -M_PI;
   erica_link_data_[6]->inertia_            =  robotis_framework::getInertiaXYZ( 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 );
 
   // right arm elbow pitch
-  erica_link_data_[8]->name_               =  "r_arm_elbow_pitch";
+  erica_link_data_[8]->name_               =  "r_arm_el_p";
   erica_link_data_[8]->parent_             =  6;
   erica_link_data_[8]->sibling_            =  -1;
   erica_link_data_[8]->child_              =  12;
   erica_link_data_[8]->mass_               =  0.1;
-  erica_link_data_[8]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.000 , -0.152 , 0.160 );
-  erica_link_data_[8]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 , -1.0 , 0.0 );
-  erica_link_data_[8]->center_of_mass_     =  robotis_framework::getTransitionXYZ( -0.003 , -0.020 , -0.005 );
+  erica_link_data_[8]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.2 ,  0.0 , 0.0 );
+  erica_link_data_[8]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 ,  1.0 , 0.0 );
+  erica_link_data_[8]->center_of_mass_     =  robotis_framework::getTransitionXYZ( 0.0 ,  0.0 , 0.0 );
   erica_link_data_[8]->joint_limit_max_    =  M_PI;
   erica_link_data_[8]->joint_limit_min_    =  -M_PI;
   erica_link_data_[8]->inertia_            =  robotis_framework::getInertiaXYZ( 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 );
 
   // right arm wrist pitch
-  erica_link_data_[10]->name_               =  "r_arm_wrist_pitch";
+  erica_link_data_[10]->name_               =  "r_arm_wr_p";
   erica_link_data_[10]->parent_             =  8;
   erica_link_data_[10]->sibling_            =  -1;
   erica_link_data_[10]->child_              =  12;
   erica_link_data_[10]->mass_               =  0.1;
-  erica_link_data_[10]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.000 , -0.152 , 0.160 );
-  erica_link_data_[10]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 , -1.0 , 0.0 );
-  erica_link_data_[10]->center_of_mass_     =  robotis_framework::getTransitionXYZ( -0.003 , -0.020 , -0.005 );
+  erica_link_data_[10]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.2 ,  0.0 , 0.0 );
+  erica_link_data_[10]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 ,  1.0 , 0.0 );
+  erica_link_data_[10]->center_of_mass_     =  robotis_framework::getTransitionXYZ( 0.0 ,  0.0 , 0.0 );
   erica_link_data_[10]->joint_limit_max_    =  M_PI;
   erica_link_data_[10]->joint_limit_min_    =  -M_PI;
   erica_link_data_[10]->inertia_            =  robotis_framework::getInertiaXYZ( 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 );
 
   // right arm wrist roll
-  erica_link_data_[12]->name_               =  "r_arm_wrist_roll";
+  erica_link_data_[12]->name_               =  "r_arm_wr_r";
   erica_link_data_[12]->parent_             =  10;
   erica_link_data_[12]->sibling_            =  -1;
   erica_link_data_[12]->child_              =  18;
   erica_link_data_[12]->mass_               =  0.1;
-  erica_link_data_[12]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.000 , -0.152 , 0.160 );
-  erica_link_data_[12]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 1.0 );
-  erica_link_data_[12]->center_of_mass_     =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 0.0 );
+  erica_link_data_[12]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 ,  0.0 );
+  erica_link_data_[12]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , -1.0 );
+  erica_link_data_[12]->center_of_mass_     =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 ,  0.0 );
   erica_link_data_[12]->joint_limit_max_    =  M_PI;
   erica_link_data_[12]->joint_limit_min_    =  -M_PI;
   erica_link_data_[12]->inertia_            =  robotis_framework::getInertiaXYZ( 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 );
@@ -348,7 +348,7 @@ KinematicsDynamics::KinematicsDynamics()
   erica_link_data_[18]->sibling_            =  -1;
   erica_link_data_[18]->child_              =  -1;
   erica_link_data_[18]->mass_               =  0.1;
-  erica_link_data_[18]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.000 , -0.152 , 0.160 );
+  erica_link_data_[18]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.034 , 0.0 , 0.0 );
   erica_link_data_[18]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 0.0 );
   erica_link_data_[18]->center_of_mass_     =  robotis_framework::getTransitionXYZ( 0.0 , 0.0 , 0.0 );
   erica_link_data_[18]->joint_limit_max_    =  M_PI;
@@ -650,7 +650,7 @@ bool KinematicsDynamics::calcInverseKinematics(int from, int to, Eigen::Vector3d
     return false;
 }
 
-bool KinematicsDynamics::calcInverseKinematicsForArm(double *out, double x, double y, double z, Eigen::Quaterniond& quat)
+bool KinematicsDynamics::calcInverseKinematicsForArm(double *out, double x, double y, double z, Eigen::Matrix3d& tar_ori)
 {
   //a : origin, d : end, c: ankle
   Eigen::Matrix4d trans_ad, trans_da, trans_cd, trans_dc;
@@ -664,7 +664,7 @@ bool KinematicsDynamics::calcInverseKinematicsForArm(double *out, double x, doub
   double wrist_length = 1.0;
 
   trans_ad = robotis_framework::getTransformationXYZRPY(x, y, z, 0,0,0);
-  trans_ad.block<3,3>(0,0) = quat.toRotationMatrix();
+  trans_ad.block<3,3>(0,0) = tar_ori;
 
   vec.coeffRef(0) = trans_ad.coeff(0, 3) + trans_ad.coeff(0, 2) * wrist_length;
   vec.coeffRef(1) = trans_ad.coeff(1, 3) + trans_ad.coeff(1, 2) * wrist_length;
@@ -698,7 +698,7 @@ bool KinematicsDynamics::calcInverseKinematicsForArm(double *out, double x, doub
   *(out+4) = -atan2(vec(0), copysign(sqrt(vec(1)*vec(1) + vec(2)*vec(2)),vec(2))) - alpha;
 
   // Get Hip Pitch
-  rot_ac = ( quat.toRotationMatrix() * robotis_framework::getRotationX(-(*(out+5)))) * robotis_framework::getRotationY(-(*(out+3) + *(out+4)));
+  rot_ac = ( tar_ori * robotis_framework::getRotationX(-(*(out+5)))) * robotis_framework::getRotationY(-(*(out+3) + *(out+4)));
 
   arc_tan = atan2(rot_ac.coeff(0, 2), rot_ac.coeff(2, 2));
   *(out) = arc_tan;
@@ -714,9 +714,9 @@ bool KinematicsDynamics::calcInverseKinematicsForArm(double *out, double x, doub
   return true;
 }
 
-bool KinematicsDynamics::calcInverseKinematicsForRightArm(double *out, double x, double y, double z, Eigen::Quaterniond& quat)
+bool KinematicsDynamics::calcInverseKinematicsForRightArm(double *out, double x, double y, double z, Eigen::Matrix3d& tar_ori)
 {
-  if(calcInverseKinematicsForArm(out, x, y, z, quat) == true) {
+  if(calcInverseKinematicsForArm(out, x, y, z, tar_ori) == true) {
 
     *(out + 0) = out[0] * (erica_link_data_[ID_R_ARM_START + 2*0]->joint_axis_.coeff(1,0));
     *(out + 1) = out[1] * (erica_link_data_[ID_R_ARM_START + 2*1]->joint_axis_.coeff(2,0));
@@ -732,9 +732,9 @@ bool KinematicsDynamics::calcInverseKinematicsForRightArm(double *out, double x,
   return true;
 }
 
-bool KinematicsDynamics::calcInverseKinematicsForLeftArm(double *out, double x, double y, double z, Eigen::Quaterniond& quat)
+bool KinematicsDynamics::calcInverseKinematicsForLeftArm(double *out, double x, double y, double z, Eigen::Matrix3d& tar_ori)
 {
-  if(calcInverseKinematicsForArm(out, x, y, z, quat) == true) {
+  if(calcInverseKinematicsForArm(out, x, y, z, tar_ori) == true) {
 
     *(out + 0) = out[0] * (erica_link_data_[ID_L_ARM_START + 2*0]->joint_axis_.coeff(1,0));
     *(out + 1) = out[1] * (erica_link_data_[ID_L_ARM_START + 2*1]->joint_axis_.coeff(2,0));

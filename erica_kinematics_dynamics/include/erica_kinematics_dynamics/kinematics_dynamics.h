@@ -39,9 +39,9 @@ public:
   bool calcInverseKinematics(int to, Eigen::Vector3d tar_position, Eigen::Matrix3d tar_orientation , int max_iter, double ik_err);
   bool calcInverseKinematics(int from, int to, Eigen::Vector3d tar_position, Eigen::Matrix3d tar_orientation, int max_iter, double ik_err);
 
-  bool calcInverseKinematicsForArm(double *out, double x, double y, double z, Eigen::Quaterniond& quat);
-  bool calcInverseKinematicsForRightArm(double *out, double x, double y, double z, Eigen::Quaterniond& quat);
-  bool calcInverseKinematicsForLeftArm(double *out, double x, double y, double z, Eigen::Quaterniond& quat);
+  bool calcInverseKinematicsForArm(double *out, double x, double y, double z, Eigen::Matrix3d& tar_ori);
+  bool calcInverseKinematicsForRightArm(double *out, double x, double y, double z, Eigen::Matrix3d& tar_ori);
+  bool calcInverseKinematicsForLeftArm(double *out, double x, double y, double z, Eigen::Matrix3d& tar_ori);
 
   LinkData *erica_link_data_ [ ALL_JOINT_ID + 1 ];
 
