@@ -1683,24 +1683,25 @@ void ActionEditor::newCmd()
 }
 
 
-void ActionEditor::goCmd(int index)
+void ActionEditor::goCmd(int stp_idx)
 {
-//  if (index < 0 || index >= action_file_define::MAXNUM_STEP)
-//  {
-//    printCmd("Invalid step index");
-//    return;
-//  }
-//
-//  if (index > page_.header.stepnum)
-//  {
-//    printCmd("Are you sure? (y/n)");
-//    if (_getch() != 'y')
-//    {
-//      clearCmd();
-//      return;
-//    }
-//  }
-//
+  if (stp_idx < 0 || stp_idx >= action_file_define::MAXNUM_STEP)
+  {
+    printCmd("Invalid step index");
+    return;
+  }
+
+  // will check
+  if (stp_idx > page_.header.stepnum)
+  {
+    printCmd("Are you sure? (y/n)");
+    if (_getch() != 'y')
+    {
+      clearCmd();
+      return;
+    }
+  }
+
 //  int id;
 //  int32_t goal_position, start_position, distance;
 //  int max_distance = 0;
@@ -1811,11 +1812,88 @@ void ActionEditor::goCmd(int index)
 //  {
 //    it->second->txPacket();
 //  }
-//
-//  step_ = page_.step[index];
-//  drawStep(7);
-//  goToCursor(cmd_col_, cmd_row_);
-//  printf("Go Command Completed");
+
+  int32_t id = 0, joint_idx = 0, read_value = 0;
+  int32_t distance = 0, max_distance = 0;
+
+  int32_t *start_position, *goal_position;
+  start_position = new int32_t[joint_id_to_row_index_.size()];
+  goal_position = new int32_t[joint_id_to_row_index_.size()];
+
+  for (std::map<int, int>::iterator it = joint_id_to_row_index_.begin(); it != joint_id_to_row_index_.end(); it++)
+  {
+    id = it->first;
+    std::string joint_name = joint_id_to_name_[id];
+    if (page_.step[stp_idx].position[id] & action_file_define::INVALID_BIT_MASK)
+    {
+      printCmd("Exist invalid joint value");
+      return;
+    }
+
+    int offset = robot_->dxls_[joint_name]->convertRadian2Value(robot_->dxls_[joint_name]->dxl_state_->position_offset_)
+        - robot_->dxls_[joint_name]->value_of_0_radian_position_;
+
+    if (ctrl_->readCtrlItem(joint_name, "present_position", (uint32_t*) &read_value, 0) != COMM_SUCCESS)
+    {
+      printCmd("Failed to read position");
+      return;
+    }
+
+    start_position[joint_idx] = read_value;
+    goal_position[joint_idx] = convert4095ToPositionValue(id, page_.step[stp_idx].position[id]);
+
+    start_position[joint_idx] = start_position[joint_idx] - offset;
+    goal_position[joint_idx]  = goal_position[joint_idx]  + offset;
+
+    distance = convertPositionValueTo4095(id, start_position[joint_idx]) - convertPositionValueTo4095(id, goal_position[joint_idx]);
+
+    distance = std::abs(distance);
+
+    if(distance > max_distance)
+      max_distance = distance;
+
+    joint_idx++;
+  }
+
+
+  for(int time_idx = 0; time_idx < max_distance; time_idx++)
+  {
+    joint_idx = 0;
+    double t = (double)(time_idx + 1)/((double)(max_distance));
+    for (std::map<int, int>::iterator it = joint_id_to_row_index_.begin(); it != joint_id_to_row_index_.end(); it++)
+    {
+      id = it->first;
+      std::string joint_name = joint_id_to_name_[id];
+
+      int32_t desire_pos = start_position[joint_idx] + (goal_position[joint_idx] - start_position[joint_idx])*t;
+      ctrl_->writeCtrlItem(joint_name, "goal_position", (uint32_t)desire_pos, 0);
+
+      joint_idx++;
+    }
+    usleep(5000);
+  }
+
+
+  joint_idx = 0;
+  for (std::map<int, int>::iterator it = joint_id_to_row_index_.begin(); it != joint_id_to_row_index_.end(); it++)
+  {
+    id = it->first;
+    std::string joint_name = joint_id_to_name_[id];
+
+    int32_t desire_pos = goal_position[joint_idx];
+    ctrl_->writeCtrlItem(joint_name, "goal_position", (uint32_t)desire_pos, 0);
+
+    joint_idx++;
+  }
+
+
+  delete[] start_position;
+  delete[] goal_position;
+
+  step_ = page_.step[stp_idx];
+  drawStep(7);
+  goToCursor(cmd_col_, cmd_row_);
+  printf("Go Command Completed");
 }
 
 void ActionEditor::saveCmd()

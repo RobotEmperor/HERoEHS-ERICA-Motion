@@ -144,7 +144,7 @@ private:
   std::string default_editor_script_path_;
   std::string mirror_joint_file_path_;
 
-  std::map<std::string, dynamixel::GroupSyncWrite *> port_to_sync_write_go_cmd_;
+  //std::map<std::string, dynamixel::GroupSyncWrite *> port_to_sync_write_go_cmd_;
 
   bool begin_command_mode_;
   bool edited_;
