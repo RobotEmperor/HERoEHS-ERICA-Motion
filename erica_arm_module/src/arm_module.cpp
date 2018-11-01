@@ -12,7 +12,7 @@ using namespace erica_alice;
 ArmModule::ArmModule()
 {
   enable_       = false;
-  module_name_  = "manipulation_module";
+  module_name_  = "arm_module";
   control_mode_ = robotis_framework::PositionControl;
 
   /* arm */
@@ -23,12 +23,12 @@ ArmModule::ArmModule()
   result_["l_arm_wr_p"]  = new robotis_framework::DynamixelState();
   result_["l_arm_wr_r"]  = new robotis_framework::DynamixelState();
 
-  result_["r_arm_sh_p"]  = new robotis_framework::DynamixelState();
-  result_["r_arm_sh_r"]  = new robotis_framework::DynamixelState();
-  result_["r_arm_sh_y"]  = new robotis_framework::DynamixelState();
-  result_["r_arm_el_p"]  = new robotis_framework::DynamixelState();
-  result_["r_arm_wr_p"]  = new robotis_framework::DynamixelState();
-  result_["r_arm_wr_r"]  = new robotis_framework::DynamixelState();
+//  result_["r_arm_sh_p"]  = new robotis_framework::DynamixelState();
+//  result_["r_arm_sh_r"]  = new robotis_framework::DynamixelState();
+//  result_["r_arm_sh_y"]  = new robotis_framework::DynamixelState();
+//  result_["r_arm_el_p"]  = new robotis_framework::DynamixelState();
+//  result_["r_arm_wr_p"]  = new robotis_framework::DynamixelState();
+//  result_["r_arm_wr_r"]  = new robotis_framework::DynamixelState();
 
   control_cycle_sec_ = 0.008;
 
@@ -93,7 +93,7 @@ void ArmModule::armCmdMsgCallback(const erica_arm_module_msgs::ArmCmd::ConstPtr&
 
     Eigen::Matrix4d mat_sh_new_to_sh = robotis_framework::getRotation4d(0,0,M_PI) * robotis_framework::getRotation4d(0, M_PI_2, 0);
     Eigen::Matrix4d mat_sh_to_g = robotis_framework::getTranslation4D(0, -0.21, -0.936);
-    Eigen::Matrix4d mat_tar_to_tar_new = robotis_framework::getRotation4d(0, -M_PI_2, 0) * robotis_framework::getRotation4d(0,0,M_PI);
+    Eigen::Matrix4d mat_tar_to_tar_new = robotis_framework::getRotation4d(0, -M_PI_2, 0) * robotis_framework::getRotation4d(0,0, -M_PI);
     Eigen::Matrix4d mat_sh_new_to_tar_new = ((mat_sh_new_to_sh * mat_sh_to_g) * mat_g_to_tar) * mat_tar_to_tar_new;
 
     Eigen::Matrix3d new_tar_ori = mat_sh_new_to_tar_new.block<3,3>(0,0);
@@ -109,7 +109,10 @@ void ArmModule::armCmdMsgCallback(const erica_arm_module_msgs::ArmCmd::ConstPtr&
     process_mutex_.unlock();
 
     if(ik_result == false)
+    {
+      ROS_ERROR("IK FAILED");
       return;
+    }
     else
     {
       ik_send_ = true;

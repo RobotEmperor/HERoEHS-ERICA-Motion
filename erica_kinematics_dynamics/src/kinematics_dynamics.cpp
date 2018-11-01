@@ -225,9 +225,9 @@ KinematicsDynamics::KinematicsDynamics()
 
   // left arm wrist pitch
   erica_link_data_[9]->name_               =  "l_arm_wr_p";
-  erica_link_data_[9]->parent_             =  5;
+  erica_link_data_[9]->parent_             =  7;
   erica_link_data_[9]->sibling_            =  -1;
-  erica_link_data_[9]->child_              =  9;
+  erica_link_data_[9]->child_              =  11;
   erica_link_data_[9]->mass_               =  1.0;
   erica_link_data_[9]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.2 ,  0.0 , 0.0 );
   erica_link_data_[9]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 , -1.0 , 0.0 );
@@ -307,7 +307,7 @@ KinematicsDynamics::KinematicsDynamics()
   erica_link_data_[8]->name_               =  "r_arm_el_p";
   erica_link_data_[8]->parent_             =  6;
   erica_link_data_[8]->sibling_            =  -1;
-  erica_link_data_[8]->child_              =  12;
+  erica_link_data_[8]->child_              =  10;
   erica_link_data_[8]->mass_               =  0.1;
   erica_link_data_[8]->relative_position_  =  robotis_framework::getTransitionXYZ( 0.2 ,  0.0 , 0.0 );
   erica_link_data_[8]->joint_axis_         =  robotis_framework::getTransitionXYZ( 0.0 ,  1.0 , 0.0 );
@@ -662,9 +662,9 @@ bool KinematicsDynamics::calcInverseKinematicsForArm(double *out, double x, doub
 
   bool invertible;
   double rac, arc_cos, arc_tan, alpha;
-  double upper_length = 1.0;
-  double lower_length = 1.0;
-  double wrist_length = 1.0;
+  double upper_length = 0.2;
+  double lower_length = 0.2;
+  double wrist_length = 0.034;
 
   trans_ad = robotis_framework::getTransformationXYZRPY(x, y, z, 0,0,0);
   trans_ad.block<3,3>(0,0) = tar_ori;
@@ -688,7 +688,7 @@ bool KinematicsDynamics::calcInverseKinematicsForArm(double *out, double x, doub
   vec.coeffRef(1) = trans_da.coeff(1, 3);
   vec.coeffRef(2) = trans_da.coeff(2, 3) - wrist_length;
 
-  arc_tan = atan2(vec(1), vec(2));
+  arc_tan = atan2(vec.coeff(1), vec.coeff(2));
   if(arc_tan > M_PI_2)
     arc_tan = arc_tan - M_PI;
   else if(arc_tan < -M_PI_2)
@@ -712,7 +712,7 @@ bool KinematicsDynamics::calcInverseKinematicsForArm(double *out, double x, doub
 
   // Get Hip Yaw
   arc_tan = atan2(rot_ac.coeff(1, 0), rot_ac.coeff(1, 1));
-  *(out+2) = arc_tan;
+  *(out + 2) = arc_tan;
 
   return true;
 }
@@ -739,12 +739,19 @@ bool KinematicsDynamics::calcInverseKinematicsForLeftArm(double *out, double x, 
 {
   if(calcInverseKinematicsForArm(out, x, y, z, tar_ori) == true) {
 
-    *(out + 0) = out[0] * (erica_link_data_[ID_L_ARM_START + 2*0]->joint_axis_.coeff(1,0));
-    *(out + 1) = out[1] * (erica_link_data_[ID_L_ARM_START + 2*1]->joint_axis_.coeff(2,0));
-    *(out + 2) = out[2] * (erica_link_data_[ID_L_ARM_START + 2*2]->joint_axis_.coeff(0,0));
-    *(out + 3) = out[3] * (erica_link_data_[ID_L_ARM_START + 2*3]->joint_axis_.coeff(1,0));
-    *(out + 4) = out[4] * (erica_link_data_[ID_L_ARM_START + 2*4]->joint_axis_.coeff(1,0));
-    *(out + 5) = out[5] * (erica_link_data_[ID_L_ARM_START + 2*5]->joint_axis_.coeff(2,0));
+//    *(out + 0) = out[0] * (erica_link_data_[ID_L_ARM_START + 2*0]->joint_axis_.coeff(1,0));
+//    *(out + 1) = out[1] * (erica_link_data_[ID_L_ARM_START + 2*1]->joint_axis_.coeff(2,0));
+//    *(out + 2) = out[2] * (erica_link_data_[ID_L_ARM_START + 2*2]->joint_axis_.coeff(0,0));
+//    *(out + 3) = out[3] * (erica_link_data_[ID_L_ARM_START + 2*3]->joint_axis_.coeff(1,0));
+//    *(out + 4) = out[4] * (erica_link_data_[ID_L_ARM_START + 2*4]->joint_axis_.coeff(1,0));
+//    *(out + 5) = out[5] * (erica_link_data_[ID_L_ARM_START + 2*5]->joint_axis_.coeff(2,0));
+
+    *(out + 0) = -out[0];
+    *(out + 1) = out[1];
+    *(out + 2) = out[2];
+    *(out + 3) = out[3];
+    *(out + 4) = out[4];
+    *(out + 5) = out[5];
     return true;
   }
   else
