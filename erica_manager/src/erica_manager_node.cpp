@@ -7,9 +7,12 @@
 
 #include "robotis_controller/robotis_controller.h"
 #include "erica_base_module/erica_base_module.h"
-//#include "alice_leg_module/alice_leg_module.h"
+#include "erica_head_module/erica_head_module.h"
+#include "erica_arm_module/arm_module.h"
+#include "erica_action_module/action_module.h"
 
 using namespace erica;
+using namespace erica_alice;
 
 int main(int argc, char **argv)
 {
@@ -52,7 +55,9 @@ int main(int argc, char **argv)
 
     sleep(1);
     controller->addMotionModule((robotis_framework::MotionModule*)BaseModule::getInstance());
-  //controller->addMotionModule((robotis_framework::MotionModule*)AliceLegModule::getInstance());
+    controller->addMotionModule((robotis_framework::MotionModule*)HeadModule::getInstance());
+    controller->addMotionModule((robotis_framework::MotionModule*)ArmModule::getInstance());
+    controller->addMotionModule((robotis_framework::MotionModule*)ActionModule::getInstance());
 
   //controller->DEBUG_PRINT = true;
     controller->startTimer();

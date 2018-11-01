@@ -18,6 +18,10 @@ find_package(catkin REQUIRED
   cmake_modules
   erica_base_module
   heroehs_math
+  erica_head_module
+  erica_arm_module
+  erica_action_module
+  erica_kinematics_dynamics
   #heroehs_online_walking_pattern_generator
   #heroehs_pd_balance_controller
 )

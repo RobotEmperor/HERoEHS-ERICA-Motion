@@ -8,8 +8,8 @@ control_cycle = 8   # milliseconds
 
 [ device info ]
 ## TYPE   | PORT NAME    | ID   | MODEL             | PROTOCOL | DEV NAME     | BULK READ ITEMS
-#dynamixel | /dev/ttyUSB0 |  1   | H54-100-S500-R-1  | 2.0      | l_arm_sh_p   | present_position
-#dynamixel | /dev/ttyUSB0 |  2   | H54-100-S500-R-2  | 2.0      | r_arm_sh_p   | present_position
+dynamixel | /dev/ttyUSB0 |  1   | H54-100-S500-R-1  | 2.0      | l_arm_sh_p   | present_position
+dynamixel | /dev/ttyUSB0 |  2   | H54-100-S500-R-2  | 2.0      | r_arm_sh_p   | present_position
 
 dynamixel | /dev/ttyUSB0 |  3   | XM540-W270-3      | 2.0      | l_arm_sh_r   | present_position
 dynamixel | /dev/ttyUSB0 |  4   | XM540-W270-4      | 2.0      | r_arm_sh_r   | present_position

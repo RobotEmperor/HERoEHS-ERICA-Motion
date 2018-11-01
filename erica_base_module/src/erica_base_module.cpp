@@ -38,6 +38,8 @@ BaseModule::BaseModule()
   result_["r_arm_wr_p"] = new robotis_framework::DynamixelState();  // joint 10
   result_["r_arm_wr_r"] = new robotis_framework::DynamixelState();  // joint 12
 
+
+
   //init
   new_count_ = 1;
   is_moving_state = false;

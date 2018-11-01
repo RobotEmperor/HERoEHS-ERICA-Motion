@@ -59,6 +59,10 @@
   <build_depend>robotis_math</build_depend>
   <build_depend>heroehs_math</build_depend>
   <build_depend>erica_base_module</build_depend>
+  <build_depend>erica_head_module</build_depend>
+  <build_depend>erica_arm_module</build_depend>
+  <build_depend>erica_kinematics_dynamics</build_depend>
+  <build_depend>erica_action_module</build_depend>
 
   <run_depend>roscpp</run_depend>
   <run_depend>robotis_controller</run_depend>
