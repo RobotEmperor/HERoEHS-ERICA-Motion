@@ -16,7 +16,8 @@ find_package(catkin REQUIRED
   robotis_controller_msgs
   robotis_math
   cmake_modules
-  #heroehs_math
+  erica_base_module
+  heroehs_math
   #heroehs_online_walking_pattern_generator
   #heroehs_pd_balance_controller
 )

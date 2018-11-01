@@ -57,6 +57,8 @@
   <build_depend>robotis_controller_msgs</build_depend>
   <build_depend>cmake_modules</build_depend>
   <build_depend>robotis_math</build_depend>
+  <build_depend>heroehs_math</build_depend>
+  <build_depend>erica_base_module</build_depend>
 
   <run_depend>roscpp</run_depend>
   <run_depend>robotis_controller</run_depend>

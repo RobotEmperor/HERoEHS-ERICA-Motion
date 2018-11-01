@@ -6,9 +6,10 @@
  */
 
 #include "robotis_controller/robotis_controller.h"
-//#include "alice_base_module/base_module.h"
+#include "erica_base_module/erica_base_module.h"
 //#include "alice_leg_module/alice_leg_module.h"
 
+using namespace erica;
 
 int main(int argc, char **argv)
 {
@@ -50,10 +51,10 @@ int main(int argc, char **argv)
         controller->loadOffset(offset_file);
 
     sleep(1);
-  //  controller->addMotionModule((robotis_framework::MotionModule*)BaseModule::getInstance());
- //   controller->addMotionModule((robotis_framework::MotionModule*)AliceLegModule::getInstance());
+    controller->addMotionModule((robotis_framework::MotionModule*)BaseModule::getInstance());
+  //controller->addMotionModule((robotis_framework::MotionModule*)AliceLegModule::getInstance());
 
-//    controller->DEBUG_PRINT = true;
+  //controller->DEBUG_PRINT = true;
     controller->startTimer();
 
     while(ros::ok())

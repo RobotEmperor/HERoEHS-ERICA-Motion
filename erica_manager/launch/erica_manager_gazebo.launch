@@ -9,10 +9,11 @@
     <param name="robot_file_path"          value="$(find erica_manager)/config/erica.robot"/>
     <param name="init_file_path"           value="$(find erica_manager)/config/dxl_init.yaml"/>
       
-    <!-- alice Manager -->
+    <!-- erica Manager -->
     <node name="erica_manager_node" pkg="erica_manager" type="erica_manager_node" output="screen"/>
     
     <!-- Robot Model & TF -->
+    <include file="$(find erica_description)/launch/erica_motion.launch"/> 
      <!--<include file="$(find alice_description)/launch/alice_soccer_motion.launch"/> -->
 
 </launch>
