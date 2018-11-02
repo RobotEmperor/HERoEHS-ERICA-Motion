@@ -116,6 +116,7 @@ void ArmModule::armCmdMsgCallback(const erica_arm_module_msgs::ArmCmd::ConstPtr&
     else
     {
       ik_send_ = true;
+      ROS_INFO("IK SUCCESS");
     }
   }
   else if (msg->name == "right")
