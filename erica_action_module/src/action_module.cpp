@@ -91,7 +91,7 @@ void ActionModule::initialize(const int control_cycle_msec, robotis_framework::R
 
   ros::NodeHandle ros_node;
 
-  std::string path = ros::package::getPath("op3_action_module") + "/data/motion_4095.bin";
+  std::string path = ros::package::getPath("erica_action_module") + "/data/motion_4095.bin";
   std::string action_file_path = ros_node.param<std::string>("action_file_path", path);
 
   loadFile(action_file_path);
@@ -359,6 +359,7 @@ bool ActionModule::loadFile(std::string file_name)
     std::string status_msg = "Can not open Action file!";
     ROS_ERROR_STREAM(status_msg);
     publishStatusMsg(robotis_controller_msgs::StatusMsg::STATUS_ERROR, status_msg);
+    fclose(action);
     return false;
   }
 
@@ -387,6 +388,7 @@ bool ActionModule::createFile(std::string file_name)
     std::string status_msg = "Can not create Action file!";
     ROS_ERROR_STREAM(status_msg);
     publishStatusMsg(robotis_controller_msgs::StatusMsg::STATUS_ERROR, status_msg);
+    fclose(action);
     return false;
   }
 

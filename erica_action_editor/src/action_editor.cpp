@@ -256,7 +256,18 @@ void ActionEditor::moveRightCursor()
 bool ActionEditor::initializeActionEditor(std::string robot_file_path, std::string init_file_path,
                                           std::string offset_file_path)
 {
+  ros::NodeHandle nh;
   ctrl_ = robotis_framework::RobotisController::getInstance();
+
+
+  ctrl_->gazebo_mode_ = nh.param<bool>("gazebo", false);
+  if(ctrl_->gazebo_mode_ == true)
+  {
+    ROS_WARN("SET TO GAZEBO MODE!");
+    std::string robot_name = nh.param<std::string>("gazebo_robot_name", "");
+    if(robot_name != "")
+      ctrl_->gazebo_robot_name_ = robot_name;
+  }
 
   //Controller Initialize with robot file info
   if (ctrl_->initialize(robot_file_path, init_file_path) == false)
@@ -266,13 +277,40 @@ bool ActionEditor::initializeActionEditor(std::string robot_file_path, std::stri
   }
 
   ctrl_->loadOffset(offset_file_path);
+
+  //Action File Check
+  std::string path = ros::package::getPath("erica_action_module") + "/data/motion_4095.bin";
+  std::string action_file_path = nh.param<std::string>("action_file_path", path);
+  if (FILE *file = fopen(action_file_path.c_str(), "r"))
+  {
+    fclose(file);
+  }
+  else
+  {
+    std::cout << "Can not find the file with the specified path." << std::endl;
+    std::cout << "Do you want to create new action file?(y/n)" << std::endl;
+    char answer;
+    std::cin >> answer;
+    if((answer == 'y') || (answer == 'Y'))
+    {
+      if(ActionModule::getInstance()->createFile(action_file_path) == false)
+      {
+        std::cout << std::endl << "Failed to create new action file" << std::endl;
+        return false;
+      }
+    }
+    else
+      return false;
+  }
+
+
   ctrl_->addMotionModule((robotis_framework::MotionModule*) ActionModule::getInstance());
   ActionModule::getInstance()->enableAllJoints();
 
   robot_ = ctrl_->robot_;
 
+
   //Initialize Publisher
-  ros::NodeHandle nh;
   enable_ctrl_module_pub_ = nh.advertise<std_msgs::String>("/robotis/enable_ctrl_module", 0);
   play_sound_pub_ = nh.advertise<std_msgs::String>("/play_sound_file", 0);
 
