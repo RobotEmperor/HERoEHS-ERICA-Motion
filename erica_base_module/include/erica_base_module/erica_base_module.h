@@ -64,10 +64,12 @@ private:
   bool running_;
 
   int new_count_;
+  int check_count_;
   int control_cycle_msec_;
 
   boost::thread queue_thread_;
 
+  std::map<std::string, bool> joint_name_to_check_;
   std::map<std::string, int> joint_name_to_id_;
   std::map<int, std::string> joint_id_to_name_;
 

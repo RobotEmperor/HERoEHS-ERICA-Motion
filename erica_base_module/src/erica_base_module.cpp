@@ -42,6 +42,7 @@ BaseModule::BaseModule()
 
   //init
   new_count_ = 1;
+  check_count_ = 0;
   is_moving_state = false;
   mov_time_state = 0;
 
@@ -49,6 +50,7 @@ BaseModule::BaseModule()
   joint_name_to_ini_pose_goal_.clear();
   joint_name_to_id_.clear();
   joint_id_to_name_.clear();
+  joint_name_to_check_.clear();
 }
 BaseModule::~BaseModule()
 {
@@ -100,6 +102,7 @@ void BaseModule::parse_init_pose_data_(const std::string &path)
     value = it->second.as<double>();
     joint_name_to_ini_pose_goal_[joint_id_to_name_[id]] = value * DEGREE2RADIAN; // YAML에 로드된 초기 포즈 값을 라디안으로 바꾸고, eigen matrix 에 id 개수만큼 열을 생성한다.
   }
+
 }
 void BaseModule::parse_init_offset_pose_data_(const std::string &path, const std::string &data)
 {
@@ -137,6 +140,7 @@ void BaseModule::parse_init_offset_pose_data_(const std::string &path, const std
 }
 void BaseModule::initPoseMsgCallback(const std_msgs::String::ConstPtr& msg) // GUI 에서 init pose topic을 sub 받아 실
 {
+  new_count_ = 1;
   std::string init_pose_path;// 로스 패키지에서 YAML파일의 경로를 읽어온다.
   printf("%s", msg->data.c_str());
   if(msg->data.compare("init_pose") == 0)
@@ -190,23 +194,12 @@ void BaseModule::process(std::map<std::string, robotis_framework::Dynamixel *> d
       if(gazebo_check == true)
         result_[joint_name]->goal_position_ = result_[joint_name]->present_position_; // 가제보 상 초기위치 0
       else
-        /*if(dxls[joint_name]->direction_==1)
-        {
-          result_[joint_name]->goal_position_ = dxls[joint_name]->dxl_state_->present_position_; // 다이나믹셀에서 읽어옴
-          joint_name_to_ini_pose_state_[joint_name] = dxls[joint_name]->dxl_state_->present_position_; // 초기위치 저장
-          //printf("value == 1 ::  %s  :: %d \n", joint_name.c_str(), dxls[joint_name]->direction_);
-        }
-
-        else
-        {
-          result_[joint_name]->goal_position_ = dxls[joint_name]->dxl_state_->present_position_; // 다이나믹셀에서 읽어옴
-          joint_name_to_ini_pose_state_[joint_name] = dxls[joint_name]->dxl_state_->present_position_; // 초기위치 저장
-          //printf("value == - 1 ::  %s  :: %f \n", joint_name.c_str(), -dxls[joint_name]->dxl_state_->present_position_);
-        }*/
       {
         result_[joint_name]->goal_position_ = dxls[joint_name]->dxl_state_->present_position_; // 다이나믹셀에서 읽어옴
         joint_name_to_ini_pose_state_[joint_name] = dxls[joint_name]->dxl_state_->present_position_; // 초기위치 저장
       }
+
+      motion_trajectory[joint_name]->current_time = 0;
       //printf("value1 ::  %s  :: %f", joint_name.c_str(), dxls[joint_name]->dxl_state_->present_position_);
     } // 등록된 다이나믹셀의 위치값을 읽어와서 goal position 으로 입력
     ROS_INFO("Base module :: Read position and Send goal position");
@@ -230,22 +223,7 @@ void BaseModule::process(std::map<std::string, robotis_framework::Dynamixel *> d
       std::string joint_name = state_iter->first;
       result_[joint_name]->goal_position_ =  motion_trajectory[joint_name]->fifth_order_traj_gen(joint_name_to_ini_pose_state_[joint_name],
           joint_name_to_ini_pose_goal_[joint_name],0,0,0,0,0,mov_time_state);
-
-      /*    if(dxls[joint_name]->direction_==1)
-      {
-        result_[joint_name]->goal_position_ =  motion_trajectory[joint_name]->fifth_order_traj_gen(joint_name_to_ini_pose_state_[joint_name],
-            joint_name_to_ini_pose_goal_[joint_name],0,0,0,0,0,mov_time_state);
-      }
-
-      else
-      {
-        result_[joint_name]->goal_position_ =  -motion_trajectory[joint_name]->fifth_order_traj_gen(joint_name_to_ini_pose_state_[joint_name],
-            joint_name_to_ini_pose_goal_[joint_name],0,0,0,0,0,mov_time_state);
-      }*/
-      is_moving_state = motion_trajectory[joint_name]->is_moving_traj;
-
-      printf("value2 ::  %s :: %f \n", joint_name.c_str(), result_[joint_name]->goal_position_);
-    } // 등록된 다이나믹셀  goal position 으로 입력
+    }
   }
 }
 void BaseModule::stop()
