@@ -12,6 +12,14 @@
     <!-- erica Manager -->
     <node name="erica_manager_node" pkg="erica_manager" type="erica_manager_node" output="screen"/>
     
+    <!-- erica gui -->
+    <node name="erica_gui" pkg="erica_gui" type="erica_gui" output="screen"/>
+    
+    <!-- erica_action_script_player -->
+    <node name="erica_action_script_player" pkg="erica_action_script_player" type="erica_action_script_player" output="screen"/>
+    
+    <node name="joy_node" pkg="joy" type="joy_node" output="screen"/>
+    
     <!-- Robot Model & TF -->
     <include file="$(find erica_description)/launch/erica_motion.launch"/> 
      <!--<include file="$(find alice_description)/launch/alice_soccer_motion.launch"/> -->
