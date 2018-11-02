@@ -5,18 +5,18 @@ mov_time : 4.0    # movement time
 # target pose [deg] 
 
 tar_pose :
-  1  : 45.0                 # l_arm_sh_p
-  2  : -45.0                 # r_arm_sh_p
-  3  : -30.0                 # l_arm_sh_r
-  4  : 30.0                 # r_arm_sh_r
-  5  : 0.0                 # l_arm_sh_y
-  6  : 0.0                 # r_arm_sh_y
-  7  : 90.0                 # l_arm_el_p
-  8  : -90.0                 # r_arm_el_p
-  9  : 0.0                 # l_arm_wr_p
-  10  : 0.0                # r_arm_wr_p
-  11  : 0.0                # l_arm_wr_r
-  12  : 0.0                # r_arm_wr_r
+  1  : 64.90122129                 # l_arm_sh_p
+  2  : -64.90122129                 # r_arm_sh_p
+  3  : -6.763021926                 # l_arm_sh_r
+  4  : 6.763021926                 # r_arm_sh_r
+  5  : 24.7632932                 # l_arm_sh_y
+  6  : -24.7632932                 # r_arm_sh_y
+  7  : 75.37775457                 # l_arm_el_p
+  8  : -75.37775457               # r_arm_el_p
+  9  : -1.185105903                 # l_arm_wr_p
+  10  : 1.185105903                # r_arm_wr_p
+  11  : 25.61482308                # l_arm_wr_r
+  12  : -25.61482308                # r_arm_wr_r
   
   13  : 0.0                # head_yaw
   14  : 0.0                # head_pitch
