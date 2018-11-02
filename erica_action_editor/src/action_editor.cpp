@@ -1908,7 +1908,7 @@ void ActionEditor::goCmd(int stp_idx)
 
       joint_idx++;
     }
-    usleep(5000);
+    usleep(1000);
   }
 
 
