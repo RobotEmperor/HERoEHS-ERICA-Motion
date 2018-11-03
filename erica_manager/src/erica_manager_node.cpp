@@ -60,22 +60,29 @@ int main(int argc, char **argv)
     controller->addMotionModule((robotis_framework::MotionModule*)ActionModule::getInstance());
 
   //controller->DEBUG_PRINT = true;
-    controller->initializeSyncWrite();
-
-    for (auto& it : controller->port_to_bulk_read_)
+    controller->startTimer();
+    while(ros::ok())
     {
-    	it.second->txPacket();
+      usleep(1000*1000);
     }
 
-    usleep(8 * 1000);
-
-    ros::Rate r(125); // 125 hz
-    while (ros::ok())
-    {
-
-    	controller->process();
-    	r.sleep();
-    }
+//    controller->initializeSyncWrite();
+//
+//    ROS_INFO("---------1--------");
+//    for (auto& it : controller->port_to_bulk_read_)
+//    {
+//    	it.second->txPacket();
+//    }
+//    ROS_INFO("---------2--------");
+//    usleep(8 * 1000);
+//
+//    ros::Rate r(125); // 125 hz
+//    while (ros::ok())
+//    {
+//
+//    	controller->process();
+//    	r.sleep();
+//    }
 
 
     return 0;
