@@ -13,7 +13,7 @@
     <node name="erica_manager_node" pkg="erica_manager" type="erica_manager_node" output="screen"/>
     
     <!-- erica_action_script_player -->
-    <node name="erica_action_script_player" pkg="erica_action_script_player" type="erica_action_script_player" output="screen"/>
+<!--    <node name="erica_action_script_player" pkg="erica_action_script_player" type="erica_action_script_player" output="screen"/>-->
         
     <node name="mobile_manager_node" pkg="mobile_manager" type="mobile_manager_node" output="screen"/>
     
