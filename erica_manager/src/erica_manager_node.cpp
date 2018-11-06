@@ -58,6 +58,7 @@ int main(int argc, char **argv)
     controller->addMotionModule((robotis_framework::MotionModule*)HeadModule::getInstance());
     controller->addMotionModule((robotis_framework::MotionModule*)ArmModule::getInstance());
     controller->addMotionModule((robotis_framework::MotionModule*)ActionModule::getInstance());
+    sleep(1);
 
   //controller->DEBUG_PRINT = true;
     controller->startTimer();
