@@ -234,24 +234,41 @@ void ActionModule::process(std::map<std::string, robotis_framework::Dynamixel *>
   if (enable_ == false)
     return;
 
-  if (action_module_enabled_ == true)
-  {
-    for (std::map<std::string, robotis_framework::Dynamixel *>::iterator dxls_it = dxls.begin(); dxls_it != dxls.end();
-        dxls_it++)
-    {
-      std::string joint_name = dxls_it->first;
+//  if (action_module_enabled_ == true)
+//  {
+//    for (std::map<std::string, robotis_framework::Dynamixel *>::iterator dxls_it = dxls.begin(); dxls_it != dxls.end();
+//        dxls_it++)
+//    {
+//      std::string joint_name = dxls_it->first;
+//
+//      std::map<std::string, robotis_framework::DynamixelState*>::iterator result_it = result_.find(joint_name);
+//      if (result_it == result_.end())
+//        continue;
+//      else
+//      {
+//        result_it->second->goal_position_ = dxls_it->second->dxl_state_->goal_position_;
+//        action_result_[joint_name]->goal_position_ = dxls_it->second->dxl_state_->goal_position_;
+//      }
+//    }
+//    action_module_enabled_ = false;
+//  }
 
-      std::map<std::string, robotis_framework::DynamixelState*>::iterator result_it = result_.find(joint_name);
-      if (result_it == result_.end())
-        continue;
-      else
-      {
-        result_it->second->goal_position_ = dxls_it->second->dxl_state_->goal_position_;
-        action_result_[joint_name]->goal_position_ = dxls_it->second->dxl_state_->goal_position_;
-      }
+  for (std::map<std::string, robotis_framework::Dynamixel *>::iterator dxls_it = dxls.begin(); dxls_it != dxls.end();
+      dxls_it++)
+  {
+    std::string joint_name = dxls_it->first;
+
+    std::map<std::string, robotis_framework::DynamixelState*>::iterator result_it = result_.find(joint_name);
+    if (result_it == result_.end())
+      continue;
+    else
+    {
+      result_it->second->goal_position_ = dxls_it->second->dxl_state_->goal_position_;
+      action_result_[joint_name]->goal_position_ = dxls_it->second->dxl_state_->goal_position_;
     }
-    action_module_enabled_ = false;
   }
+
+
 
   actionPlayProcess(dxls);
 
