@@ -19,7 +19,7 @@ tar_pose :
   12  : -25.61482308                # r_arm_wr_r
   
   13  : 0.0                # head_yaw
-  14  : 0.0                # head_pitch
+  14  : 17.16                # head_pitch
   15  : 0.0                # head_roll
 
   
