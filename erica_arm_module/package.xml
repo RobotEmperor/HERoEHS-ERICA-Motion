@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>erica_arm_module</name>
+  <version>0.0.0</version>
+  <description>The erica_arm_module package</description>
+
+  <maintainer email="jay@todo.todo">heroehs</maintainer>
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>roscpp</depend>
+  <depend>roslib</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>robotis_controller_msgs</depend>
+  <depend>erica_arm_module_msgs</depend>
+  <depend>cmake_modules</depend>
+  <depend>robotis_framework_common</depend>
+  <depend>robotis_math</depend>
+  <depend>erica_kinematics_dynamics</depend>
+  <depend>boost</depend>
+  <depend>eigen</depend>
+</package>

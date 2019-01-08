@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+
+<launch>    
+
+    <param name="gazebo"                   value="false"     type="bool"/>
+    <param name="gazebo_robot_name"        value="erica_robot" />
+
+    <param name="offset_file_path"             value="$(find erica_manager)/config/offset.yaml"/>
+    <param name="robot_file_path"          value="$(find erica_manager)/config/erica.robot"/>
+    <param name="init_file_path"           value="$(find erica_manager)/config/dxl_init.yaml"/>
+      
+     <!-- erica Manager -->
+    <node name="erica_manager_node" pkg="erica_manager" type="erica_manager_node" output="screen"/>
+    
+    <!-- erica_action_script_player -->
+    <!--  <node name="erica_action_script_player" pkg="erica_action_script_player" type="erica_action_script_player" output="screen"/> -->
+        
+     <!--<node name="mobile_manager_node" pkg="mobile_manager" type="mobile_manager_node" output="screen"/> -->
+    
+    <!-- Robot Model & TF -->
+      <!--<include file="$(find erica_description)/launch/erica_motion.launch"/> -->
+
+
+</launch>
+
