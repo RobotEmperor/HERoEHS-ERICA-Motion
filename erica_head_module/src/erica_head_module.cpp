@@ -28,13 +28,19 @@ HeadModule::HeadModule()
 	new_count_ = 1;
 	is_moving_state = false;
 
-	mode_=0;
+	mode_=1;
+	max_limit_[0]=50;
+	max_limit_[1]=30;
+	max_limit_[2]=20;
 
 	joint_name_to_id_.clear();
 	joint_id_to_name_.clear();
-	joint_id_to_rad_.clear();
 
 	joint_name_to_curr_pose_.clear();
+
+	//manual
+	joint_id_to_rad_.clear();
+	//tracking
 	joint_name_to_goal_pose_.clear();
 
 
@@ -62,14 +68,14 @@ void HeadModule::initialize(const int control_cycle_msec, robotis_framework::Rob
 		dxl_pidcontroller[joint_name]->PID_set_gains(0.08,0,0);
 
 	}
-	ROS_INFO("< -------  Initialize Module : Head Module !!  ------->");
+	//ROS_INFO("< -------  Initialize Module : Head Module !!  ------->");
 }
 
 
 void HeadModule::headmanualCallback(const std_msgs::Bool::ConstPtr& msg)
 {
-	ROS_INFO("=================================\n");
-	ROS_INFO("		HEAD MANUAL CONTROL\n");
+	//ROS_INFO("=================================\n");
+	//ROS_INFO("		HEAD MANUAL CONTROL\n");
 	mode_=1;
 	new_count_ = 1;
 	is_moving_state=false;
@@ -78,35 +84,97 @@ void HeadModule::headmanualCallback(const std_msgs::Bool::ConstPtr& msg)
 
 void HeadModule::headctrlCallback(const std_msgs::Float64MultiArray::ConstPtr& msg)
 {
-	if( abs(msg->data[0]) > 20 || abs(msg->data[1]) > 20 || abs(msg->data[2]) > 20)
+        if(mode_ != 1)
 	{
-		ROS_INFO(" OVER LIMIT \n");
-		return;
+                return;
 	}
 	joint_id_to_rad_[13] = DEG2RAD(msg->data[0]);
 	joint_id_to_rad_[14] = DEG2RAD(msg->data[1]);
 	joint_id_to_rad_[15] = DEG2RAD(msg->data[2]);
 
+        for(int i=13; i<16;i++)
+        {
+                if(joint_id_to_rad_[i]>DEG2RAD(max_limit_[i-13]))
+                {
+                        joint_id_to_rad_[i]=DEG2RAD(max_limit_[i-13]);
+                }
+                else if(joint_id_to_rad_[i]<-DEG2RAD(max_limit_[i-13]))
+                {
+                        joint_id_to_rad_[i]=-DEG2RAD(max_limit_[i-13]);
+                }
+        }
 
-	//motion_time_=2;
-	ROS_INFO("-----------------------------------\n");
+	//ROS_INFO("-----------------------------------\n");
 	//ROS_INFO("receive rad\n");
-	ROS_INFO("ID 13 Value : %f \n", joint_id_to_rad_[13]);
-	ROS_INFO("ID 14 Value : %f \n", joint_id_to_rad_[14]);
-	ROS_INFO("ID 15 Value : %f \n", joint_id_to_rad_[15]);
+	//ROS_INFO("ID 13 Value : %f \n", joint_id_to_rad_[13]);
+	//ROS_INFO("ID 14 Value : %f \n", joint_id_to_rad_[14]);
+	//ROS_INFO("ID 15 Value : %f \n", joint_id_to_rad_[15]);
 	is_moving_state=true;
 
 }
 
 void HeadModule::headtrackingCallback(const std_msgs::Bool::ConstPtr& msg)
 {
-	ROS_INFO("=================================\n");
-	ROS_INFO("		HEAD TRACKING\n");
+	//ROS_INFO("=================================\n");
+	//ROS_INFO("		HEAD TRACKING\n");
 	mode_=2;
 	new_count_=1;
 	is_moving_state=false;
 }
 
+void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePositionArray::ConstPtr& msg)
+{
+        if(msg->people_position.size() == 0 || mode_ != 2)
+	{
+		return;
+	}
+	else
+	{
+		people_position.position.x = (double) msg->people_position[0].x;
+		people_position.position.y = (double) msg->people_position[0].y;
+		people_position.position.z = (double) msg->people_position[0].z;
+
+		for(int people_num = 1; people_num < msg->people_position.size(); people_num ++)
+		{
+			if((pow((double) msg->people_position[people_num].x,2) +  pow((double) msg->people_position[people_num].y,2)) < (pow(people_position.position.x,2)+pow(people_position.position.y,2)))
+			{
+				people_position.position.x = (double) msg->people_position[people_num].x;
+				people_position.position.y = (double) msg->people_position[people_num].y;
+				people_position.position.z = (double) msg->people_position[people_num].z;
+			}
+		}
+
+
+                // zed 1120
+		joint_id_to_rad_[13] = atan2(people_position.position.y,people_position.position.x);
+		joint_id_to_rad_[14] = atan2(people_position.position.z-1.12,sqrt(pow(people_position.position.x,2)+pow(people_position.position.y,2)));
+		joint_id_to_rad_[15] = 0;
+
+		for(int i=13; i<16;i++)
+		{
+			if(joint_id_to_rad_[i]>DEG2RAD(max_limit_[i-13]))
+			{
+				joint_id_to_rad_[i]=DEG2RAD(max_limit_[i-13]);
+			}
+			else if(joint_id_to_rad_[i]<-DEG2RAD(max_limit_[i-13]))
+			{
+				joint_id_to_rad_[i]=-DEG2RAD(max_limit_[i-13]);
+			}
+		}
+		//ROS_INFO("ID 13 Value : %f \n", joint_id_to_rad_[13]);
+		//ROS_INFO("ID 14 Value : %f \n", joint_id_to_rad_[14]);
+		//ROS_INFO("ID 15 Value : %f \n", joint_id_to_rad_[15]);
+		is_moving_state=true;
+
+	}
+
+
+
+
+
+
+
+}
 
 void HeadModule::queueThread()
 {
@@ -118,10 +186,9 @@ void HeadModule::queueThread()
 	/* subscribe topics */
 	// for gui
 	ros::Subscriber head_ctrl_sub = ros_node.subscribe("/ij/head_ctrl", 5, &HeadModule::headctrlCallback, this);
-
 	ros::Subscriber head_manual_sub = ros_node.subscribe("/ij/head_manual", 5, &HeadModule::headmanualCallback, this);
 	ros::Subscriber head_tracking_sub = ros_node.subscribe("/ij/head_tracking", 5, &HeadModule::headtrackingCallback, this);
-
+	ros::Subscriber head_tracking_ctrl_sub = ros_node.subscribe("/erica/people_position", 5, &HeadModule::headtrackingctrlCallback, this);
 
 
 	ros::WallDuration duration(control_cycle_msec_ / 1000.0);
@@ -173,8 +240,8 @@ void HeadModule::process(std::map<std::string, robotis_framework::Dynamixel *> d
 		for(int i=13; i<16;i++)
 		{
 			joint_name_to_curr_pose_[joint_id_to_name_[i]]=dxls[joint_id_to_name_[i]]->dxl_state_->present_position_;
-			//result_[joint_id_to_name_[i]]->goal_position_=joint_name_to_curr_pose_[joint_id_to_name_[i]]
-			//																	   + dxl_pidcontroller[joint_id_to_name_[i]]->PID_process(joint_id_to_rad_[i],joint_name_to_curr_pose_[joint_id_to_name_[i]]);
+			result_[joint_id_to_name_[i]]->goal_position_=joint_name_to_curr_pose_[joint_id_to_name_[i]]
+																				   + dxl_pidcontroller[joint_id_to_name_[i]]->PID_process(joint_id_to_rad_[i],joint_name_to_curr_pose_[joint_id_to_name_[i]]);
 
 		}
 

@@ -16,18 +16,22 @@
 #include <std_msgs/Float64MultiArray.h>
 #include <std_msgs/String.h>
 #include <std_msgs/Bool.h>
+#include <geometry_msgs/Pose.h>
 #include <boost/thread.hpp>
 
 #include <Eigen/Dense>
 #include <yaml-cpp/yaml.h>
 #include <fstream>
 #include <stdio.h>
+#include <math.h>
 
 #include "robotis_framework_common/motion_module.h"
 #include "robotis_controller_msgs/StatusMsg.h"
 #include "robotis_math/robotis_math.h"
 #include "heroehs_math/heroehs_pid_controller_2.h"
 
+
+#include "erica_perception_msgs/PeoplePositionArray.h"
 
 #define DEG2RAD(x) (x * 0.01745329252)  // *PI/180
 #define RAD2DEG(x) (x * 57.2957795131) // *180/PI
@@ -61,6 +65,7 @@ public:
   void headctrlCallback(const std_msgs::Float64MultiArray::ConstPtr& msg);
   void headmanualCallback(const std_msgs::Bool::ConstPtr& msg);
   void headtrackingCallback(const std_msgs::Bool::ConstPtr& msg);
+  void headtrackingctrlCallback(const erica_perception_msgs::PeoplePositionArray::ConstPtr& msg);
 
 
 private:
@@ -70,8 +75,11 @@ private:
   int new_count_;
   int control_cycle_msec_;
 
-  int mode_;
+  int max_limit_[3];
 
+
+  int mode_;
+  geometry_msgs::Pose people_position;
 
   boost::thread queue_thread_;
 
@@ -79,8 +87,6 @@ private:
   std::map<int, std::string> joint_id_to_name_;
 
   std::map<int, double> joint_id_to_rad_;
-
-
 
   std::map<std::string,double> joint_name_to_curr_pose_;
   std::map<std::string,double> joint_name_to_goal_pose_;
