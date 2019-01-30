@@ -197,6 +197,7 @@ void BaseModule::process(std::map<std::string, robotis_framework::Dynamixel *> d
       {
         result_[joint_name]->goal_position_ = dxls[joint_name]->dxl_state_->present_position_; // 다이나믹셀에서 읽어옴
         joint_name_to_ini_pose_state_[joint_name] = dxls[joint_name]->dxl_state_->present_position_; // 초기위치 저장
+        motion_trajectory[joint_name]->current_pose = joint_name_to_ini_pose_state_[joint_name];
       }
 
       motion_trajectory[joint_name]->current_time = 0;
