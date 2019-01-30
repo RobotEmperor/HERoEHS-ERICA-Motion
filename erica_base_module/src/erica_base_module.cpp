@@ -31,12 +31,12 @@ BaseModule::BaseModule()
   result_["l_arm_wr_p"] = new robotis_framework::DynamixelState();  // joint 9
   result_["l_arm_wr_r"] = new robotis_framework::DynamixelState();  // joint 11
 
-  result_["r_arm_sh_p"] = new robotis_framework::DynamixelState();  // joint 2
-  result_["r_arm_sh_r"] = new robotis_framework::DynamixelState();  // joint 4
-  result_["r_arm_sh_y"] = new robotis_framework::DynamixelState();  // joint 6
-  result_["r_arm_el_p"] = new robotis_framework::DynamixelState();  // joint 8
-  result_["r_arm_wr_p"] = new robotis_framework::DynamixelState();  // joint 10
-  result_["r_arm_wr_r"] = new robotis_framework::DynamixelState();  // joint 12
+  //result_["r_arm_sh_p"] = new robotis_framework::DynamixelState();  // joint 2
+  //result_["r_arm_sh_r"] = new robotis_framework::DynamixelState();  // joint 4
+  //result_["r_arm_sh_y"] = new robotis_framework::DynamixelState();  // joint 6
+  //result_["r_arm_el_p"] = new robotis_framework::DynamixelState();  // joint 8
+  //result_["r_arm_wr_p"] = new robotis_framework::DynamixelState();  // joint 10
+  //result_["r_arm_wr_r"] = new robotis_framework::DynamixelState();  // joint 12
 
 
 
