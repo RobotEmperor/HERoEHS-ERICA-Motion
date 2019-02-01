@@ -16,6 +16,7 @@
 #include <std_msgs/Float64MultiArray.h>
 #include <std_msgs/String.h>
 #include <std_msgs/Bool.h>
+#include <std_msgs/Int32.h>
 #include <geometry_msgs/Pose.h>
 #include <boost/thread.hpp>
 
@@ -35,6 +36,7 @@
 
 #define DEG2RAD(x) (x * 0.01745329252)  // *PI/180
 #define RAD2DEG(x) (x * 57.2957795131) // *180/PI
+
 
 
 namespace erica
@@ -59,13 +61,13 @@ public:
 
 
   std::map<std::string, heroehs_math::PIDController *> dxl_pidcontroller;
-
   /* ROS Topic Callback Functions */
 
   void headctrlCallback(const std_msgs::Float64MultiArray::ConstPtr& msg);
   void headmanualCallback(const std_msgs::Bool::ConstPtr& msg);
   void headtrackingCallback(const std_msgs::Bool::ConstPtr& msg);
   void headtrackingctrlCallback(const erica_perception_msgs::PeoplePositionArray::ConstPtr& msg);
+  double mapping_num(double x, double in_min, double in_max, double out_min, double out_max);
 
 
 private:
@@ -79,7 +81,10 @@ private:
 
 
   int mode_;
-  geometry_msgs::Pose people_position;
+  int pixel_x_;
+  int pixel_y_;
+  int box_size_;
+
 
   boost::thread queue_thread_;
 

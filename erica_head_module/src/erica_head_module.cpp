@@ -6,6 +6,7 @@
  */
 
 #include <stdio.h>
+#include <cmath>
 #include "erica_head_module/erica_head_module.h"
 using namespace erica;
 
@@ -44,6 +45,10 @@ HeadModule::HeadModule()
 	joint_name_to_goal_pose_.clear();
 
 
+	pixel_x_=0;
+	pixel_y_=0;
+	box_size_=0;
+
 }
 HeadModule::~HeadModule()
 {
@@ -64,8 +69,8 @@ void HeadModule::initialize(const int control_cycle_msec, robotis_framework::Rob
 		joint_id_to_name_[dxl_info->id_] = joint_name;
 		joint_id_to_rad_[dxl_info->id_] = 0;
 
-		dxl_pidcontroller[joint_name]=new heroehs_math::PIDController();
-		dxl_pidcontroller[joint_name]->PID_set_gains(0.08,0,0);
+		dxl_pidcontroller[joint_name]=new heroehs_math::PIDController(); //for manual
+		dxl_pidcontroller[joint_name]->PID_set_gains(0.03,0,0);
 
 	}
 	//ROS_INFO("< -------  Initialize Module : Head Module !!  ------->");
@@ -84,25 +89,25 @@ void HeadModule::headmanualCallback(const std_msgs::Bool::ConstPtr& msg)
 
 void HeadModule::headctrlCallback(const std_msgs::Float64MultiArray::ConstPtr& msg)
 {
-        if(mode_ != 1)
+	if(mode_ != 1)
 	{
-                return;
+		return;
 	}
 	joint_id_to_rad_[13] = DEG2RAD(msg->data[0]);
 	joint_id_to_rad_[14] = DEG2RAD(msg->data[1]);
 	joint_id_to_rad_[15] = DEG2RAD(msg->data[2]);
 
-        for(int i=13; i<16;i++)
-        {
-                if(joint_id_to_rad_[i]>DEG2RAD(max_limit_[i-13]))
-                {
-                        joint_id_to_rad_[i]=DEG2RAD(max_limit_[i-13]);
-                }
-                else if(joint_id_to_rad_[i]<-DEG2RAD(max_limit_[i-13]))
-                {
-                        joint_id_to_rad_[i]=-DEG2RAD(max_limit_[i-13]);
-                }
-        }
+	for(int i=13; i<16;i++)
+	{
+		if(joint_id_to_rad_[i]>DEG2RAD(max_limit_[i-13]))
+		{
+			joint_id_to_rad_[i]=DEG2RAD(max_limit_[i-13]);
+		}
+		else if(joint_id_to_rad_[i]<-DEG2RAD(max_limit_[i-13]))
+		{
+			joint_id_to_rad_[i]=-DEG2RAD(max_limit_[i-13]);
+		}
+	}
 
 	//ROS_INFO("-----------------------------------\n");
 	//ROS_INFO("receive rad\n");
@@ -111,6 +116,12 @@ void HeadModule::headctrlCallback(const std_msgs::Float64MultiArray::ConstPtr& m
 	//ROS_INFO("ID 15 Value : %f \n", joint_id_to_rad_[15]);
 	is_moving_state=true;
 
+}
+
+
+double HeadModule::mapping_num(double x, double in_min, double in_max, double out_min, double out_max)
+{
+	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
 void HeadModule::headtrackingCallback(const std_msgs::Bool::ConstPtr& msg)
@@ -124,7 +135,52 @@ void HeadModule::headtrackingCallback(const std_msgs::Bool::ConstPtr& msg)
 
 void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePositionArray::ConstPtr& msg)
 {
-        if(msg->people_position.size() == 0 || mode_ != 2)
+	// nothing or too close?????  Question
+
+	if( mode_ != 2)
+	{
+		return;
+	}
+
+	if(msg->pixel_x.size()==0 || msg->box_size[0].data < 100)
+	{
+		joint_id_to_rad_[13] = 0;
+		//joint_id_to_rad_[14] = 0;
+		joint_id_to_rad_[15] = 0;
+	}
+
+	else
+	{
+		if(std::isnan(msg->people_position[0].x) || std::isnan(msg->people_position[0].y))
+		{
+			return;
+		}
+		else
+		{
+			joint_id_to_rad_[13] = DEG2RAD(mapping_num(msg->pixel_x[0].data,-1280,1280,55,-55));
+			//joint_id_to_rad_[14] = DEG2RAD(mapping_num(msg->pixel_y[0].data,-360,360,-45,45));
+			joint_id_to_rad_[15] = 0;
+
+			for(int i=13; i<16;i++)
+			{
+				if(joint_id_to_rad_[i]>DEG2RAD(max_limit_[i-13]))
+				{
+					joint_id_to_rad_[i]=DEG2RAD(max_limit_[i-13]);
+				}
+				else if(joint_id_to_rad_[i]<-DEG2RAD(max_limit_[i-13]))
+				{
+					joint_id_to_rad_[i]=-DEG2RAD(max_limit_[i-13]);
+				}
+			}
+			is_moving_state=true;
+		}
+	}
+}
+
+
+
+/*  peopel positon X,Y,Z
+      if(msg->people_position.size() == 0 || mode_ != 2)
 	{
 		return;
 	}
@@ -168,14 +224,8 @@ void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePos
 
 	}
 
-
-
-
-
-
-
 }
-
+*/
 void HeadModule::queueThread()
 {
 	ros::NodeHandle ros_node;
@@ -247,6 +297,8 @@ void HeadModule::process(std::map<std::string, robotis_framework::Dynamixel *> d
 
 	}
 }
+
+
 void HeadModule::stop()
 {
 	return;
