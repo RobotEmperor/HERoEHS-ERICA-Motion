@@ -142,14 +142,14 @@ void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePos
 		return;
 	}
 
-	if(msg->pixel_x.size()==0 || msg->box_size[0].data < 10000)
+	if( msg->box_size[0].data < 10000 )
 	{
 		joint_id_to_rad_[13] = 0;
 		//joint_id_to_rad_[14] = 0;
 		joint_id_to_rad_[15] = 0;
 	}
 
-        else if (msg->box_size[0].data > 68000)
+        else if (msg->box_size[0].data > 68000 || msg->pixel_x.size() == 0)
         {
             return;
         }
@@ -162,7 +162,7 @@ void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePos
 		}
 		else
 		{
-			joint_id_to_rad_[13] = DEG2RAD(mapping_num(msg->pixel_x[0].data,-360,360,55,-55));
+			joint_id_to_rad_[13] = DEG2RAD(mapping_num(msg->pixel_x[0].data,-120,120,55,-55));
 			//joint_id_to_rad_[14] = DEG2RAD(mapping_num(msg->pixel_y[0].data,-360,360,-45,45));
 			joint_id_to_rad_[15] = 0;
 
