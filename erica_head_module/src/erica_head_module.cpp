@@ -70,10 +70,10 @@ void HeadModule::initialize(const int control_cycle_msec, robotis_framework::Rob
 		joint_id_to_rad_[dxl_info->id_] = 0;
 
 		dxl_pidcontroller[joint_name]=new heroehs_math::PIDController(); //for manual
-		dxl_pidcontroller[joint_name]->PID_set_gains(0.03,0,0);
+		dxl_pidcontroller[joint_name]->PID_set_gains(0.12,0,0);
 
 	}
-	//ROS_INFO("< -------  Initialize Module : Head Module !!  ------->");
+	ROS_INFO("< -------  Initialize Module : Head Module !!  ------->");
 }
 
 
@@ -281,8 +281,9 @@ void HeadModule::process(std::map<std::string, robotis_framework::Dynamixel *> d
 			joint_name_to_curr_pose_[joint_id_to_name_[i]]=dxls[joint_id_to_name_[i]]->dxl_state_->present_position_;
 			result_[joint_id_to_name_[i]]->goal_position_=joint_name_to_curr_pose_[joint_id_to_name_[i]]
 																				   + dxl_pidcontroller[joint_id_to_name_[i]]->PID_process(joint_id_to_rad_[i],joint_name_to_curr_pose_[joint_id_to_name_[i]]);
-
+                        //printf("id: %d=> %f | ",i,result_[joint_id_to_name_[i]]->goal_position_);
 		}
+                //printf("\n");
 
 	}
 	if(is_moving_state==true && mode_==2)  //tracking mode
