@@ -151,14 +151,14 @@ void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePos
 
         else if (msg->box_size[0].data > 68000 || msg->pixel_x.size() == 0)
         {
-            return;
+            return;   // box size too big or no people
         }
         
         else
 	{
 		if(std::isnan(msg->people_position[0].x) || std::isnan(msg->people_position[0].y))
 		{
-			return;
+			return;		//nan people
 		}
 		else
 		{
@@ -240,9 +240,9 @@ void HeadModule::queueThread()
 
 	/* subscribe topics */
 	// for gui
-	ros::Subscriber head_ctrl_sub = ros_node.subscribe("/ij/head_ctrl", 5, &HeadModule::headctrlCallback, this);
-	ros::Subscriber head_manual_sub = ros_node.subscribe("/ij/head_manual", 5, &HeadModule::headmanualCallback, this);
-	ros::Subscriber head_tracking_sub = ros_node.subscribe("/ij/head_tracking", 5, &HeadModule::headtrackingCallback, this);
+	ros::Subscriber head_ctrl_sub = ros_node.subscribe("/erica/head_ctrl", 5, &HeadModule::headctrlCallback, this);
+	ros::Subscriber head_manual_sub = ros_node.subscribe("/erica/head_manual", 5, &HeadModule::headmanualCallback, this);
+	ros::Subscriber head_tracking_sub = ros_node.subscribe("/erica/head_tracking", 5, &HeadModule::headtrackingCallback, this);
 	ros::Subscriber head_tracking_ctrl_sub = ros_node.subscribe("/erica/people_position", 5, &HeadModule::headtrackingctrlCallback, this);
 
 
