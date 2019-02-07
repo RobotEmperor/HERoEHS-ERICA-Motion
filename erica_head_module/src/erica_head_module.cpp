@@ -135,102 +135,65 @@ void HeadModule::headtrackingCallback(const std_msgs::Bool::ConstPtr& msg)
 
 void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePositionArray::ConstPtr& msg)
 {
-	// nothing or too close?????  Question
+	double head_goal_yaw;
+	double head_goal_pitch;
+	double head_goal_roll;
+	double img_y_center = msg->pixel_y[0].data;
 
 	if( mode_ != 2)
 	{
 		return;
 	}
 
-	if( msg->box_size[0].data < 10000 )
+	///////////////////////////////////
+	if( msg->box_size[0].data < 10000)
 	{
-		joint_id_to_rad_[13] = 0;
-		//joint_id_to_rad_[14] = 0;
-		joint_id_to_rad_[15] = 0;
+		head_goal_yaw = 0;
+		head_goal_pitch = 0;
+		head_goal_roll = 0;
+	}
+	else if (msg->box_size[0].data > 68000|| msg->box_size.size() == 0)
+	{
+		return;   // box size too big or no people
 	}
 
-        else if (msg->box_size[0].data > 68000 || msg->pixel_x.size() == 0)
-        {
-            return;   // box size too big or no people
-        }
-        
-        else
-	{
-		if(std::isnan(msg->people_position[0].x) || std::isnan(msg->people_position[0].y))
-		{
-			return;		//nan people
-		}
-		else
-		{
-			joint_id_to_rad_[13] = DEG2RAD(mapping_num(msg->pixel_x[0].data,-120,120,55,-55));
-			//joint_id_to_rad_[14] = DEG2RAD(mapping_num(msg->pixel_y[0].data,-360,360,-45,45));
-			joint_id_to_rad_[15] = 0;
-
-			for(int i=13; i<16;i++)
-			{
-				if(joint_id_to_rad_[i]>DEG2RAD(max_limit_[i-13]))
-				{
-					joint_id_to_rad_[i]=DEG2RAD(max_limit_[i-13]);
-				}
-				else if(joint_id_to_rad_[i]<-DEG2RAD(max_limit_[i-13]))
-				{
-					joint_id_to_rad_[i]=-DEG2RAD(max_limit_[i-13]);
-				}
-			}
-			is_moving_state=true;
-		}
-	}
-}
-
-
-
-/*  peopel positon X,Y,Z
-      if(msg->people_position.size() == 0 || mode_ != 2)
-	{
-		return;
-	}
 	else
 	{
-		people_position.position.x = (double) msg->people_position[0].x;
-		people_position.position.y = (double) msg->people_position[0].y;
-		people_position.position.z = (double) msg->people_position[0].z;
-
-		for(int people_num = 1; people_num < msg->people_position.size(); people_num ++)
+		/*if(std::isnan(msg->people_position[0].x) || std::isnan(msg->people_position[0].y))
 		{
-			if((pow((double) msg->people_position[people_num].x,2) +  pow((double) msg->people_position[people_num].y,2)) < (pow(people_position.position.x,2)+pow(people_position.position.y,2)))
-			{
-				people_position.position.x = (double) msg->people_position[people_num].x;
-				people_position.position.y = (double) msg->people_position[people_num].y;
-				people_position.position.z = (double) msg->people_position[people_num].z;
-			}
-		}
+			return;		//nan people
+		}*/
+		//else
 
+		//{
+		//img_y_center = msg->pixel_y[0].data + box_height * (1/(double)2 - 1/(double)3);
+		head_goal_yaw = DEG2RAD(mapping_num(msg->pixel_x[0].data,-(msg->img_width.data/2),(msg->img_width.data/2),55,-55));
+		head_goal_pitch = DEG2RAD(mapping_num(img_y_center,-(msg->img_height.data/2),(msg->img_height.data/2),-45,45));
+		head_goal_roll = 0;
 
-                // zed 1120
-		joint_id_to_rad_[13] = atan2(people_position.position.y,people_position.position.x);
-		joint_id_to_rad_[14] = atan2(people_position.position.z-1.12,sqrt(pow(people_position.position.x,2)+pow(people_position.position.y,2)));
-		joint_id_to_rad_[15] = 0;
-
-		for(int i=13; i<16;i++)
-		{
-			if(joint_id_to_rad_[i]>DEG2RAD(max_limit_[i-13]))
-			{
-				joint_id_to_rad_[i]=DEG2RAD(max_limit_[i-13]);
-			}
-			else if(joint_id_to_rad_[i]<-DEG2RAD(max_limit_[i-13]))
-			{
-				joint_id_to_rad_[i]=-DEG2RAD(max_limit_[i-13]);
-			}
-		}
-		//ROS_INFO("ID 13 Value : %f \n", joint_id_to_rad_[13]);
-		//ROS_INFO("ID 14 Value : %f \n", joint_id_to_rad_[14]);
-		//ROS_INFO("ID 15 Value : %f \n", joint_id_to_rad_[15]);
-		is_moving_state=true;
-
+		//}
 	}
+	///////////////////////////////////
+	joint_id_to_rad_[13]=head_goal_yaw;
+	joint_id_to_rad_[14]=head_goal_pitch;
+	joint_id_to_rad_[15]=head_goal_roll;
 
+	for(int i=13; i<16;i++)
+	{
+		if(joint_id_to_rad_[i]>DEG2RAD(max_limit_[i-13]))
+		{
+			joint_id_to_rad_[i]=DEG2RAD(max_limit_[i-13]);
+		}
+		else if(joint_id_to_rad_[i]<-DEG2RAD(max_limit_[i-13]))
+		{
+			joint_id_to_rad_[i]=-DEG2RAD(max_limit_[i-13]);
+		}
+	}
+	is_moving_state=true;
 }
-*/
+
+
+
 void HeadModule::queueThread()
 {
 	ros::NodeHandle ros_node;
@@ -286,9 +249,9 @@ void HeadModule::process(std::map<std::string, robotis_framework::Dynamixel *> d
 			joint_name_to_curr_pose_[joint_id_to_name_[i]]=dxls[joint_id_to_name_[i]]->dxl_state_->present_position_;
 			result_[joint_id_to_name_[i]]->goal_position_=joint_name_to_curr_pose_[joint_id_to_name_[i]]
 																				   + dxl_pidcontroller[joint_id_to_name_[i]]->PID_process(joint_id_to_rad_[i],joint_name_to_curr_pose_[joint_id_to_name_[i]]);
-                        //printf("id: %d=> %f | ",i,result_[joint_id_to_name_[i]]->goal_position_);
+			//printf("id: %d=> %f | ",i,result_[joint_id_to_name_[i]]->goal_position_);
 		}
-                //printf("\n");
+		//printf("\n");
 
 	}
 	if(is_moving_state==true && mode_==2)  //tracking mode
