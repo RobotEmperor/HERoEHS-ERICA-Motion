@@ -135,30 +135,31 @@ void HeadModule::headtrackingCallback(const std_msgs::Bool::ConstPtr& msg)
 
 void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePositionArray::ConstPtr& msg)
 {
-	double head_goal_yaw;
+	
+        double head_goal_yaw;
 	double head_goal_pitch;
 	double head_goal_roll;
-	double img_y_center = msg->pixel_y[0].data;
-
-	if( mode_ != 2)
+        
+	if( mode_ != 2 || msg->box_size.size()==0 || msg->box_size[0].data > 140000 )
 	{
+            //mode , no people, box size too big
 		return;
 	}
 
-	///////////////////////////////////
-	if( msg->box_size[0].data < 10000)
+        else if( msg->box_size[0].data < 10000)
 	{
+            //box size too small
 		head_goal_yaw = 0;
 		head_goal_pitch = 0;
 		head_goal_roll = 0;
 	}
-	else if (msg->box_size[0].data > 68000|| msg->box_size.size() == 0)
-	{
-		return;   // box size too big or no people
-	}
 
 	else
 	{
+        
+                double img_y_center = msg->pixel_y[0].data;
+
+                // ==========================================
 		/*if(std::isnan(msg->people_position[0].x) || std::isnan(msg->people_position[0].y))
 		{
 			return;		//nan people
@@ -166,8 +167,10 @@ void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePos
 		//else
 
 		//{
-		//img_y_center = msg->pixel_y[0].data + box_height * (1/(double)2 - 1/(double)3);
-		head_goal_yaw = DEG2RAD(mapping_num(msg->pixel_x[0].data,-(msg->img_width.data/2),(msg->img_width.data/2),55,-55));
+		img_y_center = msg->pixel_y[0].data + (double) msg->box_height[0].data * (1/(double)2 - 1/(double)5);
+	        //===============================================
+    
+                head_goal_yaw = DEG2RAD(mapping_num(msg->pixel_x[0].data,-(msg->img_width.data/2),(msg->img_width.data/2),60,-60));
 		head_goal_pitch = DEG2RAD(mapping_num(img_y_center,-(msg->img_height.data/2),(msg->img_height.data/2),-45,45));
 		head_goal_roll = 0;
 
@@ -189,7 +192,9 @@ void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePos
 			joint_id_to_rad_[i]=-DEG2RAD(max_limit_[i-13]);
 		}
 	}
-	is_moving_state=true;
+
+        is_moving_state=true;
+        
 }
 
 
