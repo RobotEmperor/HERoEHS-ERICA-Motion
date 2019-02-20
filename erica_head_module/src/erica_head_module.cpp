@@ -44,10 +44,8 @@ HeadModule::HeadModule()
 	//tracking
 	joint_name_to_goal_pose_.clear();
 
-
-	pixel_x_=0;
-	pixel_y_=0;
-	box_size_=0;
+	max_boxsize_ = 0;
+	min_boxsize_ = 0;
 
 }
 HeadModule::~HeadModule()
@@ -73,6 +71,8 @@ void HeadModule::initialize(const int control_cycle_msec, robotis_framework::Rob
 		dxl_pidcontroller[joint_name]->PID_set_gains(0.12,0,0);
 
 	}
+
+
 	ROS_INFO("< -------  Initialize Module : Head Module !!  ------->");
 }
 
@@ -135,31 +135,34 @@ void HeadModule::headtrackingCallback(const std_msgs::Bool::ConstPtr& msg)
 
 void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePositionArray::ConstPtr& msg)
 {
-	
-        double head_goal_yaw;
+
+	double head_goal_yaw;
 	double head_goal_pitch;
 	double head_goal_roll;
-        
-	if( mode_ != 2 || msg->box_size.size()==0 || msg->box_size[0].data > 200000 )
+	glitch_flag_=false;
+
+	if( mode_ != 2 ) //|| msg->box_size.size()==0 || msg->box_size[0].data > 280000 )
 	{
-            //mode , no people, box size too big
+		//mode , no people, box size too big
 		return;
 	}
 
-        else if( msg->box_size[0].data < 10000)
+	else if( msg->box_size[0].data < 10000 || msg->box_size.size()==0 )
 	{
-            //box size too small
+		//box size too small
 		head_goal_yaw = 0;
 		head_goal_pitch = 0;
 		head_goal_roll = 0;
+		glitch_flag_=true;
+
 	}
 
 	else
 	{
-        
-                double img_y_center = msg->pixel_y[0].data;
 
-                // ==========================================
+		double img_y_center = msg->pixel_y[0].data;
+
+		// ==========================================
 		/*if(std::isnan(msg->people_position[0].x) || std::isnan(msg->people_position[0].y))
 		{
 			return;		//nan people
@@ -168,9 +171,9 @@ void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePos
 
 		//{
 		img_y_center = msg->pixel_y[0].data + (double) msg->box_height[0].data * (1/(double)2 - 1/(double)5);
-	        //===============================================
-    
-                head_goal_yaw = DEG2RAD(mapping_num(msg->pixel_x[0].data,-(msg->img_width.data/2),(msg->img_width.data/2),60,-60));
+		//===============================================
+
+		head_goal_yaw = DEG2RAD(mapping_num(msg->pixel_x[0].data,-(msg->img_width.data/2),(msg->img_width.data/2),60,-60));
 		head_goal_pitch = DEG2RAD(mapping_num(img_y_center,-(msg->img_height.data/2),(msg->img_height.data/2),-45,45));
 		head_goal_roll = 0;
 
@@ -193,8 +196,8 @@ void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePos
 		}
 	}
 
-        is_moving_state=true;
-        
+	is_moving_state=true;
+
 }
 
 
@@ -263,6 +266,14 @@ void HeadModule::process(std::map<std::string, robotis_framework::Dynamixel *> d
 	{
 		for(int i=13; i<16;i++)
 		{
+			if(glitch_flag_)
+			{
+				dxl_pidcontroller[joint_id_to_name_[i]]->PID_set_gains(0.08,0,0);
+			}
+			else
+			{
+				dxl_pidcontroller[joint_id_to_name_[i]]->PID_set_gains(0.12,0,0);
+			}
 			joint_name_to_curr_pose_[joint_id_to_name_[i]]=dxls[joint_id_to_name_[i]]->dxl_state_->present_position_;
 			result_[joint_id_to_name_[i]]->goal_position_=joint_name_to_curr_pose_[joint_id_to_name_[i]]
 																				   + dxl_pidcontroller[joint_id_to_name_[i]]->PID_process(joint_id_to_rad_[i],joint_name_to_curr_pose_[joint_id_to_name_[i]]);
