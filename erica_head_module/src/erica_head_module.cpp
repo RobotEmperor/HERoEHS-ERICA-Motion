@@ -140,7 +140,7 @@ void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePos
 	double head_goal_pitch;
 	double head_goal_roll;
         
-	if( mode_ != 2 || msg->box_size.size()==0 || msg->box_size[0].data > 140000 )
+	if( mode_ != 2 || msg->box_size.size()==0 || msg->box_size[0].data > 200000 )
 	{
             //mode , no people, box size too big
 		return;
