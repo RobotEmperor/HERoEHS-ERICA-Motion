@@ -147,7 +147,7 @@ void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePos
 		return;
 	}
 
-	else if( msg->box_size[0].data < 10000 || msg->box_size.size()==0 )
+	else if( msg->box_size.size()==0 || msg->box_size[0].data < 10000 )
 	{
 		//box size too small
 		head_goal_yaw = 0;
