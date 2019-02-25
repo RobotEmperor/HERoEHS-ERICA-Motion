@@ -31,8 +31,8 @@ HeadModule::HeadModule()
 
 	mode_=1;
 	max_limit_[0]=50;
-	max_limit_[1]=30;
-	max_limit_[2]=20;
+	max_limit_[1]=40;
+	max_limit_[2]=30;
 
 	joint_name_to_id_.clear();
 	joint_id_to_name_.clear();
@@ -176,7 +176,7 @@ void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePos
 		//===============================================
 
 		head_goal_yaw = DEG2RAD(mapping_num(msg->pixel_x[0].data,-(msg->img_width.data/2),(msg->img_width.data/2),60,-60));
-		head_goal_pitch = DEG2RAD(mapping_num(img_y_center,-(msg->img_height.data/2),(msg->img_height.data/2),-45,45));
+		head_goal_pitch = DEG2RAD(mapping_num(img_y_center,-(msg->img_height.data/2),(msg->img_height.data/2),-60,60));
 		head_goal_roll = 0;
 
 		//}
