@@ -95,7 +95,7 @@ r_arm_wr_r:
 head_yaw:
   position_p_gain: 850
   return_delay_time: 10
-  profile_velocity: 100
+  profile_velocity: 50
   second_goal_pos_addr1: 116
   second_goal_pos_addr2: 117
   second_goal_pos_addr3: 118
@@ -104,7 +104,7 @@ head_yaw:
 head_pitch:
   position_p_gain: 850
   return_delay_time: 10
-  profile_velocity: 100
+  profile_velocity: 50
   second_goal_pos_addr1: 116
   second_goal_pos_addr2: 117
   second_goal_pos_addr3: 118

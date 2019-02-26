@@ -257,9 +257,9 @@ void HeadModule::process(std::map<std::string, robotis_framework::Dynamixel *> d
 	if(is_moving_state==true && mode_==2)  //tracking mode
 	{
 
-		dxl_pidcontroller[joint_id_to_name_[13]]->PID_set_gains(0.25,0,0);
-		dxl_pidcontroller[joint_id_to_name_[14]]->PID_set_gains(0.2,0,0);
-		dxl_pidcontroller[joint_id_to_name_[15]]->PID_set_gains(0.25,0,0);
+		dxl_pidcontroller[joint_id_to_name_[13]]->PID_set_gains(0.24,0,0.02);
+		dxl_pidcontroller[joint_id_to_name_[14]]->PID_set_gains(0.24,0,0.04);
+		dxl_pidcontroller[joint_id_to_name_[15]]->PID_set_gains(0.24,0,0);
 		for(int i=13; i<16;i++)
 		{
 			joint_name_to_curr_pose_[joint_id_to_name_[i]]=dxls[joint_id_to_name_[i]]->dxl_state_->present_position_;
