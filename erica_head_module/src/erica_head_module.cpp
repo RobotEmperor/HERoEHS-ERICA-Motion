@@ -270,11 +270,11 @@ void HeadModule::process(std::map<std::string, robotis_framework::Dynamixel *> d
 		{
 			if(glitch_flag_)
 			{
-				dxl_pidcontroller[joint_id_to_name_[i]]->PID_set_gains(0.09,0,0);
+				dxl_pidcontroller[joint_id_to_name_[i]]->PID_set_gains(0.15,0,0);
 			}
 			else
 			{
-				dxl_pidcontroller[joint_id_to_name_[i]]->PID_set_gains(0.14,0,0);
+				dxl_pidcontroller[joint_id_to_name_[i]]->PID_set_gains(0.25,0,0);
 			}
 			joint_name_to_curr_pose_[joint_id_to_name_[i]]=dxls[joint_id_to_name_[i]]->dxl_state_->present_position_;
 			result_[joint_id_to_name_[i]]->goal_position_=joint_name_to_curr_pose_[joint_id_to_name_[i]]
