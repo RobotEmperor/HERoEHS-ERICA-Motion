@@ -31,7 +31,7 @@ HeadModule::HeadModule()
 
 	mode_=1;
 	max_limit_[0]=50;
-	max_limit_[1]=30;
+	max_limit_[1]=50;
 	max_limit_[2]=30;
 
 	joint_name_to_id_.clear();
@@ -166,7 +166,7 @@ void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePos
 		double img_y_center = msg->pixel_y[0].data;
 
 
-		img_y_center = msg->pixel_y[0].data + (double) msg->box_height[0].data * (1/(double)2 - 1/(double)5);
+		img_y_center = msg->pixel_y[0].data + (double) msg->box_height[0].data * (1/(double)2 - 1/(double)3);
 
 		head_goal_yaw = DEG2RAD(mapping_num(msg->pixel_x[0].data,-(msg->img_width.data/2),(msg->img_width.data/2),60,-60));
 		head_goal_pitch = DEG2RAD(mapping_num(img_y_center,-(msg->img_height.data/2),(msg->img_height.data/2),-60,60));
@@ -180,6 +180,7 @@ void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePos
 	joint_id_to_rad_[14]=joint_name_to_curr_pose_[joint_id_to_name_[14]]+head_goal_pitch;
 	joint_id_to_rad_[15]=joint_name_to_curr_pose_[joint_id_to_name_[15]]+head_goal_roll;
 
+
 	for(int i=13; i<16;i++)
 	{
 		if(joint_id_to_rad_[i]>DEG2RAD(max_limit_[i-13]))
@@ -191,6 +192,11 @@ void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePos
 			joint_id_to_rad_[i]=-DEG2RAD(max_limit_[i-13]);
 		}
 	}
+
+        if(joint_id_to_rad_[14]<-DEG2RAD(10))
+        {
+            joint_id_to_rad_[14]=-DEG2RAD(10);
+        }
 
 	is_moving_state=true;
 
