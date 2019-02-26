@@ -140,6 +140,9 @@ void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePos
 	double head_goal_yaw;
 	double head_goal_pitch;
 	double head_goal_roll;
+	double error_yaw;
+	double error_pitch;
+	double error_roll;
 
 
 	if( mode_ != 2 ) //|| msg->box_size.size()==0 || msg->box_size[0].data > 280000 )
@@ -172,9 +175,10 @@ void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePos
 	}
 
 	///////////////////////////////////
-	joint_id_to_rad_[13]=head_goal_yaw;
-	joint_id_to_rad_[14]=head_goal_pitch;
-	joint_id_to_rad_[15]=head_goal_roll;
+
+	joint_id_to_rad_[13]=joint_name_to_curr_pose_[joint_id_to_name_[13]]+head_goal_yaw;
+	joint_id_to_rad_[14]=joint_name_to_curr_pose_[joint_id_to_name_[14]]+head_goal_pitch;
+	joint_id_to_rad_[15]=joint_name_to_curr_pose_[joint_id_to_name_[15]]+head_goal_roll;
 
 	for(int i=13; i<16;i++)
 	{
