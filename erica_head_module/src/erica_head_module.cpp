@@ -169,7 +169,7 @@ void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePos
 		img_y_center = msg->pixel_y[0].data + (double) msg->box_height[0].data * (1/(double)2 - 1/(double)3);
 
 		head_goal_yaw = DEG2RAD(mapping_num(msg->pixel_x[0].data,-(msg->img_width.data/2),(msg->img_width.data/2),60,-60));
-		head_goal_pitch = DEG2RAD(mapping_num(img_y_center,-(msg->img_height.data/2),(msg->img_height.data/2),-60,60));
+		head_goal_pitch = DEG2RAD(mapping_num(img_y_center,-(msg->img_height.data/2),(msg->img_height.data/2),-40,40));
 		head_goal_roll = 0;
 
 	}
