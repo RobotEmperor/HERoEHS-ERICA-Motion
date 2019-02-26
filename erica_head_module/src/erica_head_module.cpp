@@ -47,7 +47,6 @@ HeadModule::HeadModule()
 	max_boxsize_ = 0;
 	min_boxsize_ = 0;
 
-	glitch_flag_=false;
 
 }
 HeadModule::~HeadModule()
@@ -141,7 +140,7 @@ void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePos
 	double head_goal_yaw;
 	double head_goal_pitch;
 	double head_goal_roll;
-	glitch_flag_=false;
+
 
 	if( mode_ != 2 ) //|| msg->box_size.size()==0 || msg->box_size[0].data > 280000 )
 	{
@@ -155,7 +154,6 @@ void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePos
 		head_goal_yaw = 0;
 		head_goal_pitch = 0;
 		head_goal_roll = 0;
-		glitch_flag_=true;
 
 	}
 
@@ -164,23 +162,15 @@ void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePos
 
 		double img_y_center = msg->pixel_y[0].data;
 
-		// ==========================================
-		/*if(std::isnan(msg->people_position[0].x) || std::isnan(msg->people_position[0].y))
-		{
-			return;		//nan people
-		}*/
-		//else
 
-		//{
 		img_y_center = msg->pixel_y[0].data + (double) msg->box_height[0].data * (1/(double)2 - 1/(double)5);
-		//===============================================
 
 		head_goal_yaw = DEG2RAD(mapping_num(msg->pixel_x[0].data,-(msg->img_width.data/2),(msg->img_width.data/2),60,-60));
 		head_goal_pitch = DEG2RAD(mapping_num(img_y_center,-(msg->img_height.data/2),(msg->img_height.data/2),-60,60));
 		head_goal_roll = 0;
 
-		//}
 	}
+
 	///////////////////////////////////
 	joint_id_to_rad_[13]=head_goal_yaw;
 	joint_id_to_rad_[14]=head_goal_pitch;
@@ -266,16 +256,12 @@ void HeadModule::process(std::map<std::string, robotis_framework::Dynamixel *> d
 	}
 	if(is_moving_state==true && mode_==2)  //tracking mode
 	{
+
+		dxl_pidcontroller[joint_id_to_name_[13]]->PID_set_gains(0.25,0,0);
+		dxl_pidcontroller[joint_id_to_name_[14]]->PID_set_gains(0.2,0,0);
+		dxl_pidcontroller[joint_id_to_name_[15]]->PID_set_gains(0.25,0,0);
 		for(int i=13; i<16;i++)
 		{
-			if(glitch_flag_)
-			{
-				dxl_pidcontroller[joint_id_to_name_[i]]->PID_set_gains(0.15,0,0);
-			}
-			else
-			{
-				dxl_pidcontroller[joint_id_to_name_[i]]->PID_set_gains(0.25,0,0);
-			}
 			joint_name_to_curr_pose_[joint_id_to_name_[i]]=dxls[joint_id_to_name_[i]]->dxl_state_->present_position_;
 			result_[joint_id_to_name_[i]]->goal_position_=joint_name_to_curr_pose_[joint_id_to_name_[i]]
 																				   + dxl_pidcontroller[joint_id_to_name_[i]]->PID_process(joint_id_to_rad_[i],joint_name_to_curr_pose_[joint_id_to_name_[i]]);

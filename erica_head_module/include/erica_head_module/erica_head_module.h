@@ -83,7 +83,6 @@ private:
   int mode_;
   int max_boxsize_;
   int min_boxsize_;
-  int glitch_flag_;
 
 
   boost::thread queue_thread_;
