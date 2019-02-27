@@ -47,6 +47,14 @@ HeadModule::HeadModule()
 	max_boxsize_ = 0;
 	min_boxsize_ = 0;
 
+	p_px=0;
+	p_py=0;
+	p_bw=0;
+	p_bh=0;
+	p_bs=0;
+	p_iw=0;
+	p_ih=0;
+
 
 }
 HeadModule::~HeadModule()
@@ -137,12 +145,10 @@ void HeadModule::headtrackingCallback(const std_msgs::Bool::ConstPtr& msg)
 void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePositionArray::ConstPtr& msg)
 {
 
-	double head_goal_yaw;
-	double head_goal_pitch;
-	double head_goal_roll;
 	double error_yaw;
 	double error_pitch;
 	double error_roll;
+	double img_y_center;
 
 
 	if( mode_ != 2 ) //|| msg->box_size.size()==0 || msg->box_size[0].data > 280000 )
@@ -151,34 +157,62 @@ void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePos
 		return;
 	}
 
-	else if( msg->box_size.size()==0 || msg->box_size[0].data < 10000 )
+	else if( msg->box_size.size()==0 )
 	{
-		//box size too small
-		head_goal_yaw = 0;
-		head_goal_pitch = 0;
-		head_goal_roll = 0;
+		//no box(못잡았을 경우 이전에 제대로 잡은 값)
+		error_yaw = 0;
+		error_pitch = 0;
+		error_roll = 0;
 
+		img_y_center = p_py + p_bh * (1/(double)2 - 1/(double)3);
+
+		error_yaw = DEG2RAD(mapping_num(p_px,-(p_iw/2),(p_iw/2),60,-60));
+		error_pitch = DEG2RAD(mapping_num(img_y_center,-(p_ih/2),(p_ih/2),-40,40));
+		error_roll = 0;
+
+	}
+
+
+	else if(msg->box_size[0].data < 10000 && msg->box_size[0].data > 0)
+	{
+		//box size too small 유
+		error_yaw = 0;
+		error_pitch = 0;
+		error_roll = 0;
+	}
+
+	else if(msg->box_size[0].data < 0)
+	{
+		//사람 없을 경우 0,0,0
+		error_yaw = -joint_name_to_curr_pose_[joint_id_to_name_[13]];
+		error_pitch = -joint_name_to_curr_pose_[joint_id_to_name_[14]];
+		error_roll = -joint_name_to_curr_pose_[joint_id_to_name_[15]];
 	}
 
 	else
 	{
+		p_px=msg->pixel_x[0].data;
+		p_py=msg->pixel_y[0].data;
+		p_bw=msg->box_width[0].data;
+		p_bh=msg->box_height[0].data;
+		p_bs=msg->box_size[0].data;
+		p_iw=msg->img_width.data;
+		p_ih=msg->img_height.data;
 
-		double img_y_center = msg->pixel_y[0].data;
+		img_y_center = p_py + p_bh * (1/(double)2 - 1/(double)3);
 
+		error_yaw = DEG2RAD(mapping_num(p_px,-(p_iw/2),(p_iw/2),60,-60));
+		error_pitch = DEG2RAD(mapping_num(img_y_center,-(p_ih/2),(p_ih/2),-40,40));
+		error_roll = 0;
 
-		img_y_center = msg->pixel_y[0].data + (double) msg->box_height[0].data * (1/(double)2 - 1/(double)3);
-
-		head_goal_yaw = DEG2RAD(mapping_num(msg->pixel_x[0].data,-(msg->img_width.data/2),(msg->img_width.data/2),60,-60));
-		head_goal_pitch = DEG2RAD(mapping_num(img_y_center,-(msg->img_height.data/2),(msg->img_height.data/2),-40,40));
-		head_goal_roll = 0;
 
 	}
 
 	///////////////////////////////////
 
-	joint_id_to_rad_[13]=joint_name_to_curr_pose_[joint_id_to_name_[13]]+head_goal_yaw;
-	joint_id_to_rad_[14]=joint_name_to_curr_pose_[joint_id_to_name_[14]]+head_goal_pitch;
-	joint_id_to_rad_[15]=joint_name_to_curr_pose_[joint_id_to_name_[15]]+head_goal_roll;
+	joint_id_to_rad_[13]=joint_name_to_curr_pose_[joint_id_to_name_[13]]+error_yaw;
+	joint_id_to_rad_[14]=joint_name_to_curr_pose_[joint_id_to_name_[14]]+error_pitch;
+	joint_id_to_rad_[15]=joint_name_to_curr_pose_[joint_id_to_name_[15]]+error_roll;
 
 
 	for(int i=13; i<16;i++)
@@ -193,10 +227,10 @@ void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePos
 		}
 	}
 
-        if(joint_id_to_rad_[14]<-DEG2RAD(10))
-        {
-            joint_id_to_rad_[14]=-DEG2RAD(10);
-        }
+	if(joint_id_to_rad_[14]<-DEG2RAD(10))
+	{
+		joint_id_to_rad_[14]=-DEG2RAD(10);
+	}
 
 	is_moving_state=true;
 

@@ -85,6 +85,9 @@ private:
   int min_boxsize_;
 
 
+  double p_px,p_py,p_bw,p_bh,p_bs,p_iw,p_ih;
+
+
   boost::thread queue_thread_;
 
   std::map<std::string, int> joint_name_to_id_;
