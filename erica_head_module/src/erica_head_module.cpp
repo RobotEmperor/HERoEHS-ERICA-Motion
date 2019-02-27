@@ -77,11 +77,13 @@ void HeadModule::initialize(const int control_cycle_msec, robotis_framework::Rob
 		joint_id_to_rad_[dxl_info->id_] = 0;
 
 		dxl_pidcontroller[joint_name]=new heroehs_math::PIDController(); //for manual
-		dxl_pidcontroller[joint_name]->PID_set_gains(0.12,0,0);
+		//dxl_pidcontroller[joint_name]->PID_set_gains(0.12,0,0);
 
 	}
 
-
+        dxl_pidcontroller[joint_id_to_name_[13]]->PID_set_gains(0.21,0,0.02);
+        dxl_pidcontroller[joint_id_to_name_[14]]->PID_set_gains(0.21,0,0.05);
+        dxl_pidcontroller[joint_id_to_name_[15]]->PID_set_gains(0.21,0,0);
 	ROS_INFO("< -------  Initialize Module : Head Module !!  ------->");
 }
 
@@ -157,40 +159,28 @@ void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePos
 		return;
 	}
 
-	else if( msg->box_size.size()==0 )
+	else if( msg->box_size.size()==0 || (msg->box_size[0].data < 10000 && msg->box_size[0].data > 0 ) )
 	{
-		//no box(못잡았을 경우 이전에 제대로 잡은 값)
-		error_yaw = 0;
-		error_pitch = 0;
-		error_roll = 0;
-
-		img_y_center = p_py + p_bh * (1/(double)2 - 1/(double)3);
-
-		error_yaw = DEG2RAD(mapping_num(p_px,-(p_iw/2),(p_iw/2),60,-60));
-		error_pitch = DEG2RAD(mapping_num(img_y_center,-(p_ih/2),(p_ih/2),-40,40));
-		error_roll = 0;
-
-	}
-
-
-	else if(msg->box_size[0].data < 10000 && msg->box_size[0].data > 0)
-	{
-		//box size too small 유
+		//no box (no people return same(if no detect no callback--> result for last person....))
 		error_yaw = 0;
 		error_pitch = 0;
 		error_roll = 0;
 	}
 
+        /*
 	else if(msg->box_size[0].data < 0)
 	{
+            ROS_INFO("3333\n");
 		//사람 없을 경우 0,0,0
 		error_yaw = -joint_name_to_curr_pose_[joint_id_to_name_[13]];
 		error_pitch = -joint_name_to_curr_pose_[joint_id_to_name_[14]];
 		error_roll = -joint_name_to_curr_pose_[joint_id_to_name_[15]];
+                return;
 	}
-
+        */
 	else
 	{
+                ROS_INFO("44444");
 		p_px=msg->pixel_x[0].data;
 		p_py=msg->pixel_y[0].data;
 		p_bw=msg->box_width[0].data;
@@ -205,7 +195,8 @@ void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePos
 		error_pitch = DEG2RAD(mapping_num(img_y_center,-(p_ih/2),(p_ih/2),-40,40));
 		error_roll = 0;
 
-
+                //ROS_INFO(" %f | %f | %f | %f | %f \n",p_px, p_py, p_bh, p_iw,p_ih);
+                //ROS_INFO("  %f ||| %f ||| %f |||\n",error_yaw,error_pitch,error_roll);
 	}
 
 	///////////////////////////////////
@@ -214,8 +205,9 @@ void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePos
 	joint_id_to_rad_[14]=joint_name_to_curr_pose_[joint_id_to_name_[14]]+error_pitch;
 	joint_id_to_rad_[15]=joint_name_to_curr_pose_[joint_id_to_name_[15]]+error_roll;
 
-
-	for(int i=13; i<16;i++)
+        //ROS_INFO("  %f ||| %f ||| %f |||\n",joint_id_to_rad_[13],joint_id_to_rad_[14],joint_id_to_rad_[15]);
+	
+        for(int i=13; i<16;i++)
 	{
 		if(joint_id_to_rad_[i]>DEG2RAD(max_limit_[i-13]))
 		{
@@ -231,6 +223,7 @@ void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePos
 	{
 		joint_id_to_rad_[14]=-DEG2RAD(10);
 	}
+        //ROS_INFO("  %f ||| %f ||| %f |||\n",joint_id_to_rad_[13],joint_id_to_rad_[14],joint_id_to_rad_[15]);
 
 	is_moving_state=true;
 
@@ -301,9 +294,8 @@ void HeadModule::process(std::map<std::string, robotis_framework::Dynamixel *> d
 	if(is_moving_state==true && mode_==2)  //tracking mode
 	{
 
-		dxl_pidcontroller[joint_id_to_name_[13]]->PID_set_gains(0.21,0,0.02);
-		dxl_pidcontroller[joint_id_to_name_[14]]->PID_set_gains(0.21,0,0.05);
-		dxl_pidcontroller[joint_id_to_name_[15]]->PID_set_gains(0.21,0,0);
+                //ROS_INFO("  %f ||| %f ||| %f |||\n",joint_id_to_rad_[13],joint_id_to_rad_[14],joint_id_to_rad_[15]);
+
 		for(int i=13; i<16;i++)
 		{
 			joint_name_to_curr_pose_[joint_id_to_name_[i]]=dxls[joint_id_to_name_[i]]->dxl_state_->present_position_;
