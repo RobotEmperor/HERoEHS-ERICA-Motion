@@ -180,7 +180,7 @@ void HeadModule::headtrackingctrlCallback(const erica_perception_msgs::PeoplePos
         */
 	else
 	{
-                ROS_INFO("44444");
+        //        ROS_INFO("44444");
 		p_px=msg->pixel_x[0].data;
 		p_py=msg->pixel_y[0].data;
 		p_bw=msg->box_width[0].data;
